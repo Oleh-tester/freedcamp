@@ -1,9 +1,9 @@
-package com.freedcamp.ui.components;
+package com.freedcamp.pages.components;
 
 import com.codeborne.selenide.Condition;
-import com.freedcamp.ui.pages.HomePage;
-import com.freedcamp.ui.pages.ProjectsPage;
-import com.freedcamp.ui.pages.TasksPage;
+import com.freedcamp.pages.HomePage;
+import com.freedcamp.pages.ProjectsPage;
+import com.freedcamp.pages.TasksPage;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;

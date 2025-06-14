@@ -1,6 +1,6 @@
 package com.freedcamp.tests.ui;
 
-import com.freedcamp.ui.pages.HomePage;
+import com.freedcamp.pages.HomePage;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 

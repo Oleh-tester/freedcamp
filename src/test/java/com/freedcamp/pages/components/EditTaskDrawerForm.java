@@ -1,8 +1,8 @@
-package com.freedcamp.ui.components;
+package com.freedcamp.pages.components;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.freedcamp.ui.pages.BasePage;
+import com.freedcamp.pages.BasePage;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.attributeMatching;

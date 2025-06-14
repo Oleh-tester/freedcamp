@@ -1,7 +1,7 @@
 package com.freedcamp.tests.ui;
 
 import common.annotations.SkipSessionInjection;
-import com.freedcamp.ui.pages.LoginPage;
+import com.freedcamp.pages.LoginPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

@@ -1,11 +1,10 @@
 package com.freedcamp.tests.ui;
 
-import com.freedcamp.ui.pages.LoginPage;
+import com.freedcamp.pages.LoginPage;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ProjectTests extends BaseUiTest {
 

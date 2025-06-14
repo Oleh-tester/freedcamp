@@ -1,4 +1,4 @@
-package com.freedcamp.ui.pages;
+package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
@@ -14,8 +14,7 @@ public class ProjectsPage extends BasePage {
     }
 
     @Step("Verify project {projectName} is displayed in Projects page")
-    public ProjectsPage verifyProjectIsDisplayedInProjectsPage(String projectName) {
+    public void verifyProjectIsDisplayedInProjectsPage(String projectName) {
         $x("//*[contains(@class, 'ProjectsSection')]//*[text()='" + projectName + "']").shouldBe(Condition.visible);
-        return this;
     }
 }

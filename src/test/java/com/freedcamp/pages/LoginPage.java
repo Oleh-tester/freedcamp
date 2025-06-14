@@ -1,4 +1,4 @@
-package com.freedcamp.ui.pages;
+package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;

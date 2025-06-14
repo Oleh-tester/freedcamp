@@ -1,8 +1,8 @@
-package com.freedcamp.ui.pages;
+package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.freedcamp.ui.components.EditTaskDrawerForm;
+import com.freedcamp.pages.components.EditTaskDrawerForm;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -25,9 +25,8 @@ public class TasksPage extends BasePage {
     }
 
     @Step("Verify task {taskName} is displayed in Tasks page")
-    public TasksPage verifyTaskIsDisplayedInTasksPage(String taskName) {
+    public void verifyTaskIsDisplayedInTasksPage(String taskName) {
         tasksSection.$x(".//*[text()='" + taskName + "']").shouldBe(Condition.visible);
-        return this;
     }
 
     @Step("Enter task name: {newTask}")

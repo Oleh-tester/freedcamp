@@ -1,8 +1,8 @@
-package com.freedcamp.ui.pages;
+package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.freedcamp.ui.components.SideBarComponent;
+import com.freedcamp.pages.components.SideBarComponent;
 
 public abstract class BasePage {
 
