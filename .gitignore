@@ -2,3 +2,7 @@
 *.iml
 target/
 out/
+echo ".DS_Store" >> .gitignore
+echo "/build/" >> .gitignore
+echo "/.gradle/" >> .gitignore
+
