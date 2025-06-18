@@ -1,7 +1,9 @@
 package com.freedcamp.api.controllers;
 
 import com.freedcamp.api.RequestSpecFactory;
+import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -31,11 +33,10 @@ public class ProjectController extends BaseController<ProjectController> {
     }
 
     @Step("Create new project")
-    public Response createProject(String name, String description) {
-        return given()
-                .spec(RequestSpecFactory.getSpec())
-                .multiPart("name", name)
-                .multiPart("description", description)
+    public Response createProject(Object projectDto) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), projectDto)
                 .when()
                 .post("/projects")
                 .then()

@@ -7,6 +7,7 @@ import common.annotations.SkipSessionInjection;
 import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
 import io.qameta.allure.selenide.AllureSelenide;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
 import org.aeonbits.owner.ConfigFactory;
@@ -18,6 +19,7 @@ import static com.codeborne.selenide.Selenide.open;
 public abstract class BaseUiTest {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
+    Faker faker = new Faker();
 
     @BeforeAll
     static void setUp() {

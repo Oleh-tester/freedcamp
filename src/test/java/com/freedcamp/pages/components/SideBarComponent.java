@@ -1,6 +1,7 @@
 package com.freedcamp.pages.components;
 
 import com.codeborne.selenide.Condition;
+import com.freedcamp.pages.CalendarPage;
 import com.freedcamp.pages.HomePage;
 import com.freedcamp.pages.ProjectsPage;
 import com.freedcamp.pages.TasksPage;
@@ -35,9 +36,10 @@ public class SideBarComponent {
     }
 
     @Step("Open Calendar page")
-    public void openCalendarPage() {
+    public CalendarPage openCalendarPage() {
         $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/calendar']")
                 .shouldBe(Condition.visible)
                 .click();
+        return new CalendarPage();
     }
 }

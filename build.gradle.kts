@@ -17,11 +17,13 @@ repositories {
 dependencies {
     implementation("com.codeborne:selenide:7.9.3")
     implementation("io.rest-assured:rest-assured:5.4.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
     implementation("io.qameta.allure:allure-junit5:2.29.0")
     implementation("io.qameta.allure:allure-rest-assured:2.29.0")
     implementation("org.projectlombok:lombok:1.18.28")
     implementation("org.aeonbits.owner:owner:1.0.12")
     implementation ("org.jsoup:jsoup:1.17.2")
+    implementation("net.datafaker:datafaker:2.4.3")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
