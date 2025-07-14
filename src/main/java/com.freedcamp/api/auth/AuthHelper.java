@@ -1,11 +1,14 @@
 package com.freedcamp.api.auth;
 
 import com.freedcamp.utils.FreedcampConfig;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.aeonbits.owner.ConfigFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -14,14 +17,8 @@ public class AuthHelper {
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
     private static final String LOGIN_ENDPOINT = "/login";
 
-    public static String getSessionCookie() {
-
-        Response homePageResponse = given()
-                .baseUri(CONFIG.baseUrl())
-                .get("/");
-
-        String html = homePageResponse.getBody().asString();
-        String aToken = extractAToken(html);
+    public static Map<String, String> getSessionCookie() {
+        String aToken = extractAToken();
 
         Response loginResponse = given()
                 .baseUri(CONFIG.baseUrl())
@@ -38,16 +35,33 @@ public class AuthHelper {
 
         loginResponse.then().statusCode(200);
 
-        return loginResponse.getCookie("ci_session");
+        return loginResponse.getCookies();
     }
 
-    private static String extractAToken(String html) {
-        Document doc = Jsoup.parse(html);
-        Element tokenInput = doc.selectFirst("input[name=a_token]");
-        if (tokenInput == null) {
-            throw new IllegalStateException("a_token not found on the homepage.");
+    private static String extractAToken() {
+        try {
+            String html = RestAssured
+                    .given()
+                    .baseUri(CONFIG.baseUrl())
+                    .queryParam("f_lgt", "1")
+                    .when()
+                    .get("/")
+                    .then()
+                    .statusCode(200)
+                    .extract()
+                    .asString();
+
+            Document doc = Jsoup.parse(html);
+            Element tokenInput = doc.selectFirst("input[name=a_token]");
+
+            if (tokenInput != null) {
+                return tokenInput.attr("value");
+            } else {
+                throw new RuntimeException("a_token not found in <input>");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to extract a_token", e);
         }
-        return tokenInput.attr("value");
     }
 }
 

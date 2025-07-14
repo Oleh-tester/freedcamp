@@ -1,22 +1,29 @@
 package com.freedcamp.api.controllers;
 
 import com.freedcamp.api.RequestSpecFactory;
+import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
 
 public class TaskController extends BaseController<TaskController> {
 
     @Step("Get all tasks")
-    public Response getAllTasks() {
+    public Response getAllTasks(RequestSpecification spec) {
         return given()
-                .spec(RequestSpecFactory.getSpec())
+                .spec(spec)
                 .when()
                 .get("/tasks")
                 .then()
                 .extract()
                 .response();
+    }
+
+    public Response getAllTasks() {
+        return getAllTasks(RequestSpecFactory.getSpec());
     }
 
     @Step("Get task by ID: {taskId}")
@@ -31,11 +38,10 @@ public class TaskController extends BaseController<TaskController> {
     }
 
     @Step("Create new task")
-    public Response createTask(String title, String description) {
-        return given()
-                .spec(RequestSpecFactory.getSpec())
-                .multiPart("title", title)
-                .multiPart("description", description)
+    public Response createTask(Object taskDto) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), taskDto)
                 .when()
                 .post("/tasks")
                 .then()

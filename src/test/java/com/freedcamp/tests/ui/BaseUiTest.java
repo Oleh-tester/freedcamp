@@ -52,9 +52,9 @@ public abstract class BaseUiTest {
             return;
         }
 
-        String session = AuthHelper.getSessionCookie();
+        var session = AuthHelper.getSessionCookie();
         open("/");
-        WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("ci_session", session));
+        WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("ci_session", session.get("ci_session")));
         open("/dashboard/home");
     }
 }

@@ -18,6 +18,7 @@ public class CalendarTests extends BaseUiTest {
                 .verifyCalendarPageIsLoaded()
                 .clickAddItemButtonOnCalendarPage()
                 .selectCalendarEventOptionInPopover()
+                .selectRandomProjectFromDropdown()
                 .enterEventTitle(meetName)
                 .clickQuickAddButton()
                 .verifyEventIsDisplayedInCalendar(meetName);
