@@ -4,16 +4,7 @@ import org.aeonbits.owner.Config;
 
 @FreedcampConfig.Sources({"classpath:freedcamp.properties"})
 public interface FreedcampConfig extends Config {
-    @Key("api.apiUri")
-    String apiUri();
-
-    @Key("api.apiKey")
-    String apiKey();
-
-    @Key("api.secretKey")
-    String secretKey();
-
-    @Key("ui.baseUrl")
+    @Key("baseUrl")
     String baseUrl();
 
     @Key("ui.browser")
@@ -27,5 +18,11 @@ public interface FreedcampConfig extends Config {
 
     @Key("ui.password")
     String password();
+
+    @Key("testUserId")
+    String testUserId();
+
+    @Key("testGroupId")
+    String testGroupId();
 }
 
