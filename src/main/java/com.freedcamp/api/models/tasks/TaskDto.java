@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTaskDto{
+public class TaskDto {
 
 	@JsonProperty("r_rule")
 	private String rRule;

@@ -27,7 +27,7 @@ public class TaskController extends BaseController<TaskController> {
     }
 
     @Step("Get task by ID: {taskId}")
-    public Response getTaskById(String taskId) {
+    public Response getTaskById(long taskId) {
         return given()
                 .spec(RequestSpecFactory.getSpec())
                 .when()
@@ -44,6 +44,29 @@ public class TaskController extends BaseController<TaskController> {
                         .contentType(ContentType.MULTIPART), taskDto)
                 .when()
                 .post("/tasks")
+                .then()
+                .extract()
+                .response();
+    }
+
+    @Step("Update task")
+    public Response updateTask(long taskId, Object taskDto) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), taskDto)
+                .when()
+                .post("/tasks/"+ taskId)
+                .then()
+                .extract()
+                .response();
+    }
+
+    @Step("Delete task")
+    public Response deleteTask(long taskId) {
+        return given()
+                .spec(RequestSpecFactory.getSpec())
+                .when()
+                .delete("/tasks/"+ taskId)
                 .then()
                 .extract()
                 .response();

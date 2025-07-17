@@ -1,6 +1,8 @@
 package com.freedcamp.api.models.tasks;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Data{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Data {
 
 	@JsonProperty("tasks")
 	private List<TasksItem> tasks;

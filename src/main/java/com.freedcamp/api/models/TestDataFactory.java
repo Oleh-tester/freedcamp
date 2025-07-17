@@ -2,7 +2,7 @@ package com.freedcamp.api.models;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.projects.CreateProjectDto;
-import com.freedcamp.api.models.tasks.CreateTaskDto;
+import com.freedcamp.api.models.tasks.TaskDto;
 import com.freedcamp.api.models.tasks.TaskConditions;
 import com.freedcamp.utils.FreedcampConfig;
 import net.datafaker.Faker;
@@ -28,10 +28,10 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static CreateTaskDto validTaskDto(String targetProjectId) {
+    public static TaskDto validTaskDto(String targetProjectId) {
         var listId = listController.getAllListsByProject(targetProjectId)
                 .path("data.lists[0].id").toString();
-        return CreateTaskDto.builder()
+        return TaskDto.builder()
                 .title("Task_" + UUID.randomUUID())
                 .description(faker.lorem().sentence(5))
                 .taskGroupId(listId)
@@ -50,5 +50,28 @@ public class TestDataFactory {
                         .order(null)
                         .build())
                 .build();
+    }
+
+    public static TaskDto updateTaskDto() {
+        return TaskDto.builder()
+                .title("Updated Task_" + UUID.randomUUID())
+                .description(faker.lorem().sentence(5))
+                .priority(faker.number().numberBetween(0, 3))
+                .conditions(TaskConditions.builder()
+                        .filter(null)
+                        .fUseAnd("0")
+                        .substring("")
+                        .order(null)
+                        .build())
+                .build();
+    }
+
+    public static TaskDto getInvalidUpdateDto() {
+        var validTaskDto = updateTaskDto();
+        validTaskDto.setProjectId("invalid_project_id");
+        validTaskDto.setAssignedToId("invalid_user_id");
+        validTaskDto.setStatus(999);
+        validTaskDto.setTitle("");
+        return validTaskDto;
     }
 }
