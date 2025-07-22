@@ -1,7 +1,6 @@
-package com.freedcamp.api.models.projects.getAllProjects;
+package com.freedcamp.api.models.projects.updateProject;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.freedcamp.api.models.projects.createProjectResponse.Data;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllProjectsDto {
+public class UpdateProjectResponseDto{
 
 	@JsonProperty("msg")
 	private String msg;

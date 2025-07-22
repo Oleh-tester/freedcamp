@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupsItem{
+public class GroupsItem {
 
 	@JsonProperty("f_template_group")
 	private boolean fTemplateGroup;

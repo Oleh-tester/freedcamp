@@ -2,6 +2,7 @@ package com.freedcamp.api.models;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.projects.CreateProjectDto;
+import com.freedcamp.api.models.projects.updateProject.UpdateProjectDto;
 import com.freedcamp.api.models.tasks.TaskDto;
 import com.freedcamp.api.models.tasks.TaskConditions;
 import com.freedcamp.utils.FreedcampConfig;
@@ -24,6 +25,15 @@ public class TestDataFactory {
                 .projectColor(faker.color().hex())
                 .todoViewType("default")
                 .usageType("personal")
+                .groupId(CONFIG.testGroupId())
+                .build();
+    }
+
+    public static UpdateProjectDto updateProjectDto() {
+        return UpdateProjectDto.builder()
+                .projectName("Updated Project_" + UUID.randomUUID())
+                .projectDescription(faker.lorem().sentence(5))
+                .projectColor(faker.color().hex())
                 .groupId(CONFIG.testGroupId())
                 .build();
     }

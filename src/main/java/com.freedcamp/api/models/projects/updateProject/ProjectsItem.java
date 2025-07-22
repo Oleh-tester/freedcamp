@@ -1,4 +1,4 @@
-package com.freedcamp.api.models.projects.getAllProjects;
+package com.freedcamp.api.models.projects.updateProject;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,6 +26,12 @@ public class ProjectsItem {
 	@JsonProperty("project_name")
 	private String projectName;
 
+	@JsonProperty("applications_installed")
+	private List<String> applicationsInstalled;
+
+	@JsonProperty("ms_data")
+	private MsData msData;
+
 	@JsonProperty("archived_by_id")
 	private String archivedById;
 
@@ -34,6 +40,9 @@ public class ProjectsItem {
 
 	@JsonProperty("features")
 	private Features features;
+
+	@JsonProperty("f_can_add_tasks")
+	private boolean fCanAddTasks;
 
 	@JsonProperty("project_id")
 	private String projectId;
@@ -52,6 +61,9 @@ public class ProjectsItem {
 
 	@JsonProperty("f_can_manage")
 	private boolean fCanManage;
+
+	@JsonProperty("f_access_requests_allowed")
+	private boolean fAccessRequestsAllowed;
 
 	@JsonProperty("order")
 	private int order;
@@ -73,6 +85,12 @@ public class ProjectsItem {
 
 	@JsonProperty("user_ids")
 	private List<String> userIds;
+
+	@JsonProperty("custom_fields")
+	private List<Object> customFields;
+
+	@JsonProperty("f_email_in")
+	private boolean fEmailIn;
 
 	@JsonProperty("project_unique_name")
 	private String projectUniqueName;
@@ -112,6 +130,12 @@ public class ProjectsItem {
 
 	@JsonProperty("f_can_leave")
 	private boolean fCanLeave;
+
+	@JsonProperty("f_tasks_start_dates")
+	private boolean fTasksStartDates;
+
+	@JsonProperty("notifications")
+	private List<Object> notifications;
 
 	@JsonProperty("applications")
 	private List<String> applications;

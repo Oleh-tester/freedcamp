@@ -44,6 +44,18 @@ public class ProjectController extends BaseController<ProjectController> {
                 .response();
     }
 
+    @Step("Update project")
+    public Response updateProject(Object projectDto, String projectId) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), projectDto)
+                .when()
+                .post("/projects/" + projectId)
+                .then()
+                .extract()
+                .response();
+    }
+
     @Step("Delete project by ID: {projectId}")
     public Response deleteProject(String projectId) {
         return given()

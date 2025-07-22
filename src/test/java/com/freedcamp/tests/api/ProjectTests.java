@@ -24,7 +24,7 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("Should create project and return correct response")
+    @DisplayName("Verify create project and return correct response")
     void shouldCreateProjectSuccessfully() {
         var projectDto = TestDataFactory.validProjectDto();
 
@@ -57,6 +57,17 @@ public class ProjectTests extends BaseApiTest {
 
         var getProjectResponse = projectController.getProjectById(targetProjectId);
         assertEquals(400, getProjectResponse.statusCode(), "Project should be deleted and not found");
+    }
+
+    @Test
+    @DisplayName("Verify update project and validate response")
+    void verifyUpdateProjectAndValidateResponse() {
+        var createdProject = createTestProject();
+        var updatedProjectDto = TestDataFactory.updateProjectDto();
+
+        var updateProjectResponse = projectController.updateProject(updatedProjectDto,
+                createdProject.getData().getProjects().get(0).getId());
+        verifyProjectUpdatedCorrectly(updateProjectResponse, updatedProjectDto);
     }
 
     private CreateProjectResponseDto createTestProject() {

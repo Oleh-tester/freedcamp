@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Features{
+public class Features {
 
 	@JsonProperty("f_dropbox_installed")
 	private boolean fDropboxInstalled;
