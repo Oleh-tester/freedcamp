@@ -1,10 +1,11 @@
 package com.freedcamp.tests.ui;
 
 import com.freedcamp.pages.HomePage;
+import com.freedcamp.testdata.CreatedTask;
+import common.annotations.RequiresTask;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
 public class TasksTests extends BaseUiTest {
 
     @Test
@@ -22,14 +23,14 @@ public class TasksTests extends BaseUiTest {
     }
 
     @Test
+    @RequiresTask
     @Tag("UI")
     @Description("Verify editing task.")
-    void editTask() {
+    void editTask(CreatedTask createdTask) {
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTasksPage()
-                .createNewTask("Task to Edit")
-                .openEditTaskDrawerForm("Task to Edit")
+                .openEditTaskDrawerForm(createdTask.originalDto().getTitle())
                 .verifyEditTaskDrawerIsOpened()
                 .changeStatusTo("In Progress")
                 .verifyNewStatusIsDisplayed("In Progress")

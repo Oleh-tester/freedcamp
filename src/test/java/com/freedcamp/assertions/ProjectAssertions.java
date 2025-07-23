@@ -21,7 +21,7 @@ public class ProjectAssertions {
         assertEquals(expectedData.getProjectName(), createdProject.getProjectName(), "Project name should match");
         assertEquals(expectedData.getGroupId(), createdProject.getGroupId(), "Project group ID should match");
         assertEquals(expectedData.getProjectDescription(), createdProject.getProjectDescription(), "Project description should match");
-        assertEquals(expectedData.getProjectColor(), createdProject.getProjectColor(), "Project color should match");
+        assertEquals(expectedData.getProjectColor(), "#" + createdProject.getProjectColor(), "Project color should match");
         assertTrue(createdProject.isFActive(), "Project should be active");
     }
 

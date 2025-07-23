@@ -2,20 +2,18 @@ package com.freedcamp.tests.api;
 
 import com.freedcamp.api.RequestSpecFactory;
 import com.freedcamp.api.controllers.TaskController;
-import com.freedcamp.api.helpers.TestDataCreator;
+import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.api.models.TestDataFactory;
-import com.freedcamp.api.models.tasks.CreateTaskResponseDto;
-import io.qameta.allure.junit5.AllureJunit5;
+import com.freedcamp.testdata.CreatedTask;
+import common.annotations.RequiresProject;
+import common.annotations.RequiresTask;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import com.freedcamp.api.models.tasks.TaskDto;
 
 import static com.freedcamp.assertions.TasksAssertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(AllureJunit5.class)
 public class TaskTests extends BaseApiTest {
     private static TaskController taskController;
 
@@ -25,9 +23,10 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresProject
     @DisplayName("Verify create task in a project.")
-    void verifyCreateTaskInProject() {
-        var targetProjectId = TestDataCreator.createRandomProjectAndGetId();
+    void verifyCreateTaskInProject(CreatedProject createdProject) {
+        var targetProjectId = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getId();
         var taskDto = TestDataFactory.validTaskDto(targetProjectId);
 
         var createTaskResponse = taskController.createTask(taskDto);
@@ -36,9 +35,10 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresProject
     @DisplayName("Verify return 400 when title is missing.")
-    void verify400whenTitleIsMissing() {
-        var targetProjectId = TestDataCreator.createRandomProjectAndGetId();
+    void verify400whenTitleIsMissing(CreatedProject createdProject) {
+        var targetProjectId = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getId();
 
         var taskDtoWithoutTitle = TestDataFactory.validTaskDto(targetProjectId);
         taskDtoWithoutTitle.setTitle(null);
@@ -66,10 +66,9 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Verify task update and response.")
-    void verifyTaskUpdate() {
-        var targetTask = createProjectAndTask();
-
+    void verifyTaskUpdate(CreatedTask targetTask) {
         var updateTaskDto = TestDataFactory.updateTaskDto();
         var updateTaskResponse = taskController.updateTask(Long.parseLong(targetTask.taskId()), updateTaskDto);
 
@@ -77,10 +76,9 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Verify ignore invalid values during task update")
-    void verifyTaskUpdateIgnoresInvalidValues() {
-        var targetTask = createProjectAndTask();
-
+    void verifyTaskUpdateIgnoresInvalidValues(CreatedTask targetTask) {
         var updateTaskDto = TestDataFactory.getInvalidUpdateDto();
         var updateResponse = taskController.updateTask(Long.parseLong(targetTask.taskId()), updateTaskDto);
 
@@ -88,10 +86,9 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Verify invalid priority during task update")
-    void verifyUpdateTaskInvalidPriority() {
-        var targetTask = createProjectAndTask();
-
+    void verifyUpdateTaskInvalidPriority(CreatedTask targetTask) {
         var updateTaskDto = TestDataFactory.updateTaskDto();
         updateTaskDto.setPriority(999);
         var updateResponse = taskController.updateTask(Long.parseLong(targetTask.taskId()), updateTaskDto);
@@ -100,10 +97,9 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Delete task and verify response")
-    void deleteTask() {
-        var targetTask = createProjectAndTask();
-
+    void deleteTask(CreatedTask targetTask) {
         var deleteResponse = taskController.deleteTask(Long.parseLong(targetTask.taskId()));
         verifyTaskDeletionResponse(deleteResponse);
 
@@ -120,28 +116,11 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Verify getting tasks by iD and its content")
-    void verifyGetTaskById() {
-        var targetTask = createProjectAndTask();
-
+    void verifyGetTaskById(CreatedTask targetTask) {
         var getTaskResponse = taskController.getTaskById(Long.parseLong(targetTask.taskId()));
 
         verifyGetTaskByIdContent(getTaskResponse, targetTask.originalDto());
-    }
-
-    private CreatedTask createProjectAndTask() {
-        var targetProjectId = TestDataCreator.createRandomProjectAndGetId();
-        var taskDto = TestDataFactory.validTaskDto(targetProjectId);
-        var createResponse = taskController.createTask(taskDto);
-
-        assertEquals(200, createResponse.statusCode(), "Task should be created successfully");
-
-        var taskId = createResponse.as(CreateTaskResponseDto.class)
-                .getData().getTasks().get(0).getId();
-
-        return new CreatedTask(taskId, taskDto);
-    }
-
-    public record CreatedTask(String taskId, TaskDto originalDto) {
     }
 }

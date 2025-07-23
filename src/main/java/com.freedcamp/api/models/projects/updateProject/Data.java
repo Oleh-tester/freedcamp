@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Data{
+public class Data {
 
 	@JsonProperty("projects")
 	private List<ProjectsItem> projects;

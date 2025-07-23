@@ -3,19 +3,22 @@ package com.freedcamp.tests.ui;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import com.freedcamp.utils.TestDataSetupExtension;
 import common.annotations.SkipSessionInjection;
 import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
+import io.qameta.allure.junit5.AllureJunit5;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Cookie;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import static com.codeborne.selenide.Selenide.open;
-
+@ExtendWith({AllureJunit5.class, TestDataSetupExtension.class})
 public abstract class BaseUiTest {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);

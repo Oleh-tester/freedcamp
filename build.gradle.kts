@@ -25,9 +25,9 @@ dependencies {
     implementation ("org.jsoup:jsoup:1.17.2")
     implementation("net.datafaker:datafaker:2.4.3")
     implementation("org.assertj:assertj-core:3.24.2")
+    implementation("org.junit.jupiter:junit-jupiter:5.10.0")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.aeonbits.owner:owner:1.0.12")
     testImplementation("io.qameta.allure:allure-junit5:2.29.0")
     testImplementation("io.qameta.allure:allure-selenide:2.24.0")

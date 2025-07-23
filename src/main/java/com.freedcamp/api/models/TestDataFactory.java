@@ -9,8 +9,6 @@ import com.freedcamp.utils.FreedcampConfig;
 import net.datafaker.Faker;
 import org.aeonbits.owner.ConfigFactory;
 
-import java.util.UUID;
-
 public class TestDataFactory {
 
     static final Faker faker = new Faker();
@@ -20,7 +18,7 @@ public class TestDataFactory {
 
     public static CreateProjectDto validProjectDto() {
         return CreateProjectDto.builder()
-                .projectName("PromoProject_" + UUID.randomUUID())
+                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .todoViewType("default")
@@ -31,7 +29,7 @@ public class TestDataFactory {
 
     public static UpdateProjectDto updateProjectDto() {
         return UpdateProjectDto.builder()
-                .projectName("Updated Project_" + UUID.randomUUID())
+                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .groupId(CONFIG.testGroupId())
@@ -42,7 +40,7 @@ public class TestDataFactory {
         var listId = listController.getAllListsByProject(targetProjectId)
                 .path("data.lists[0].id").toString();
         return TaskDto.builder()
-                .title("Task_" + UUID.randomUUID())
+                .title("Task_" + faker.number().digits(4))
                 .description(faker.lorem().sentence(5))
                 .taskGroupId(listId)
                 .projectId(targetProjectId)
@@ -64,7 +62,7 @@ public class TestDataFactory {
 
     public static TaskDto updateTaskDto() {
         return TaskDto.builder()
-                .title("Updated Task_" + UUID.randomUUID())
+                .title("Updated Task_" + faker.number().digits(4))
                 .description(faker.lorem().sentence(5))
                 .priority(faker.number().numberBetween(0, 3))
                 .conditions(TaskConditions.builder()
