@@ -15,13 +15,13 @@ public class HomePage extends BasePage {
 
     @Step("Click Add project button.")
     public HomePage clickAddProjectButton() {
-        $x("//*[.='Add Project']").shouldBe(Condition.visible).click();
+        $x("//*[.='Add Project']").click();
         return this;
     }
 
     @Step("Select project from scratch option in Add project dropdown.")
     public AddProjectForm selectProjectFromScratch() {
-        $x("//*[.='From scratch']").shouldBe(Condition.visible).click();
+        $x("//*[.='From scratch']").click();
         return new AddProjectForm();
     }
 

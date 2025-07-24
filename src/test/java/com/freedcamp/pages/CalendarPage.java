@@ -9,15 +9,13 @@ import static com.codeborne.selenide.Selenide.$x;
 public class CalendarPage extends BasePage {
     @Step("Select date {day} in the calendar")
     public CalendarPage selectDate(int day) {
-        $x("//*[@class='k-scheduler-table']//*[contains(text(),'" + day + "')]")
-                .shouldBe(Condition.visible).click();
+        $x("//*[@class='k-scheduler-table']//*[contains(text(),'" + day + "')]").click();
         return this;
     }
 
     @Step("Select Calendar event option in Add item popover")
     public AddCalendarEventForm selectCalendarEventOptionInPopover() {
-        $x("//*[.='Calendar Event']")
-                .shouldBe(Condition.visible).click();
+        $x("//*[.='Calendar Event']").click();
         return new AddCalendarEventForm();
     }
 
@@ -36,7 +34,7 @@ public class CalendarPage extends BasePage {
 
     @Step("Click Add item button on the calendar page")
     public CalendarPage clickAddItemButtonOnCalendarPage() {
-        $x("//*[.='Add Item']").shouldBe(Condition.visible).click();
+        $x("//*[.='Add Item']").click();
         return this;
     }
 }

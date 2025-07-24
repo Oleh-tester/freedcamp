@@ -37,4 +37,20 @@ public class TasksTests extends BaseUiTest {
                 .changeDescription("Updated description for the task")
                 .verifyDescriptionIsUpdated("Updated description for the task");
     }
+
+    @Test
+    @RequiresTask
+    @Tag("UI")
+    @Description("Verify deleting task.")
+    void deleteTask(CreatedTask createdTask) {
+        var taskToDelete = createdTask.originalDto().getTitle();
+        new HomePage()
+                .verifyHomePageIsLoaded()
+                .sidebar().openTasksPage()
+                .openEditTaskDrawerForm(taskToDelete)
+                .openMoreActionsMenu()
+                .clickDeleteTaskButton()
+                .confirmDeleteTask()
+                .verifyTaskIsNotDisplayedInTasksPage(taskToDelete);
+    }
 }

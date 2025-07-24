@@ -20,7 +20,7 @@ public class TasksPage extends BasePage {
 
     @Step("Click Add Task button in Tasks list.")
     public TasksPage clickAddTaskButtonInTasksList() {
-        tasksSection.$x(".//button").shouldBe(Condition.visible).click();
+        tasksSection.$x(".//button").click();
         return this;
     }
 
@@ -52,7 +52,12 @@ public class TasksPage extends BasePage {
 
     @Step("Open edit task form for task: {taskToEdit}")
     public EditTaskDrawerForm openEditTaskDrawerForm(String taskToEdit) {
-        $x("//*[text()='" + taskToEdit + "']").shouldBe(Condition.visible).click();
+        $x("//*[text()='" + taskToEdit + "']").click();
         return new EditTaskDrawerForm();
+    }
+
+    @Step("Verify task {deletedTask} is not displayed in Tasks page")
+    public void verifyTaskIsNotDisplayedInTasksPage(String deletedTask) {
+        tasksSection.$x(".//*[text()='" + deletedTask + "']").shouldNotBe(Condition.visible);
     }
 }

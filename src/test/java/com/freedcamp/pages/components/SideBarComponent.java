@@ -1,6 +1,5 @@
 package com.freedcamp.pages.components;
 
-import com.codeborne.selenide.Condition;
 import com.freedcamp.pages.CalendarPage;
 import com.freedcamp.pages.HomePage;
 import com.freedcamp.pages.ProjectsPage;
@@ -13,33 +12,25 @@ public class SideBarComponent {
 
     @Step("Open Projects page")
     public ProjectsPage openProjectsPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard']")
-                .shouldBe(Condition.visible)
-                .click();
+        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard']").click();
         return new ProjectsPage();
     }
 
     @Step("Open Home page")
     public HomePage openHomePage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/home']")
-                .shouldBe(Condition.visible)
-                .click();
+        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/home']").click();
         return new HomePage();
     }
 
     @Step("Open Tasks page")
     public TasksPage openTasksPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/tasks']")
-                .shouldBe(Condition.visible)
-                .click();
+        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/tasks']").click();
         return new TasksPage();
     }
 
     @Step("Open Calendar page")
     public CalendarPage openCalendarPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/calendar']")
-                .shouldBe(Condition.visible)
-                .click();
+        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/calendar']").click();
         return new CalendarPage();
     }
 }
