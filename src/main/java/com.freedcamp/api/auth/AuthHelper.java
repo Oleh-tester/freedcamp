@@ -1,5 +1,6 @@
 package com.freedcamp.api.auth;
 
+import com.freedcamp.api.controllers.LoginController;
 import com.freedcamp.utils.FreedcampConfig;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -15,6 +16,7 @@ import static io.restassured.RestAssured.given;
 public class AuthHelper {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
+    private static final LoginController loginController = new LoginController();
     private static final String LOGIN_ENDPOINT = "/login";
 
     public static Map<String, String> getSessionCookie() {

@@ -66,4 +66,16 @@ public class ProjectController extends BaseController<ProjectController> {
                 .extract()
                 .response();
     }
+
+    @Step("Create project from template")
+    public Response createProjectFromTemplate(Object projectDto) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), projectDto)
+                .when()
+                .post("/clone_jobs/307")
+                .then()
+                .extract()
+                .response();
+    }
 }

@@ -14,13 +14,19 @@ public class TasksPage extends BasePage {
 
     @Step("Verify Tasks page is loaded")
     public TasksPage verifyTasksPageIsLoaded() {
-        waitUntilVisible($x("//*[contains(@class,'AppHeader')]//button[div[text()='Add Task']]"));
+        waitUntilVisible(headerMenu.$x(".//button[div[text()='Add Task']]"));
         return this;
     }
 
     @Step("Click Add Task button in Tasks list.")
     public TasksPage clickAddTaskButtonInTasksList() {
         tasksSection.$x(".//button").click();
+        return this;
+    }
+
+    @Step("Click Add Task button in header")
+    public TasksPage clickAddTaskButtonInHeader() {
+        headerMenu.$x(".//*[text()='Add Task']").click();
         return this;
     }
 
@@ -31,13 +37,19 @@ public class TasksPage extends BasePage {
 
     @Step("Enter task name: {newTask}")
     public TasksPage enterTaskName(String newTask) {
-        tasksSection.$x(".//input[not(@type='hidden')]").shouldBe(Condition.visible).setValue(newTask);
+        $x(".//input[not(@type='hidden')]").shouldBe(Condition.visible).setValue(newTask);
         return this;
     }
 
     @Step("Submit task creation")
     public TasksPage submitTaskCreation() {
         tasksSection.$x(".//input[not(@type='hidden')]").pressEnter();
+        return this;
+    }
+
+    @Step("Click Quick Add button in Tasks section")
+    public TasksPage clickQuickAddTaskButton() {
+        $x("//button[.='Quick Add']").pressEnter();
         return this;
     }
 
@@ -59,5 +71,11 @@ public class TasksPage extends BasePage {
     @Step("Verify task {deletedTask} is not displayed in Tasks page")
     public void verifyTaskIsNotDisplayedInTasksPage(String deletedTask) {
         tasksSection.$x(".//*[text()='" + deletedTask + "']").shouldNotBe(Condition.visible);
+    }
+
+    @Step("Select project from dropdown: {targetProject}")
+    public TasksPage selectProjectFromDropdown(String targetProject) {
+        $x("//*[contains(@class,'SelectOption')]/*[text()='" + targetProject + "']").click();
+        return this;
     }
 }

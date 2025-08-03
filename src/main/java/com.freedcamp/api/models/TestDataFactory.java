@@ -2,12 +2,15 @@ package com.freedcamp.api.models;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.projects.CreateProjectDto;
+import com.freedcamp.api.models.projects.CreateProjectFromTemplateDto;
 import com.freedcamp.api.models.projects.updateProject.UpdateProjectDto;
 import com.freedcamp.api.models.tasks.TaskDto;
 import com.freedcamp.api.models.tasks.TaskConditions;
 import com.freedcamp.utils.FreedcampConfig;
 import net.datafaker.Faker;
 import org.aeonbits.owner.ConfigFactory;
+
+import java.util.List;
 
 public class TestDataFactory {
 
@@ -24,6 +27,17 @@ public class TestDataFactory {
                 .todoViewType("default")
                 .usageType("personal")
                 .groupId(CONFIG.testGroupId())
+                .build();
+    }
+
+    public static CreateProjectFromTemplateDto validProjectFromTemplateDto() {
+        return CreateProjectFromTemplateDto.builder()
+                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
+                .projectDescription(faker.lorem().sentence(5))
+                .projectColor(faker.color().hex())
+                .appIds(List.of("2", "3", "4", "5", "19", "6"))
+                .groupId(CONFIG.testGroupId())
+                .srcTemplateId(CONFIG.projectTemplateId())
                 .build();
     }
 

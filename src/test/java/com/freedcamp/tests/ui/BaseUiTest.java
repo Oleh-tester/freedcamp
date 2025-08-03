@@ -9,6 +9,7 @@ import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
 import io.qameta.allure.junit5.AllureJunit5;
 import io.qameta.allure.selenide.AllureSelenide;
+import lombok.Getter;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,9 @@ import static com.codeborne.selenide.Selenide.open;
 public abstract class BaseUiTest {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
-    Faker faker = new Faker();
+
+    @Getter
+    public Faker faker = new Faker();
 
     @BeforeAll
     static void setUp() {

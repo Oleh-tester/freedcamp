@@ -26,6 +26,7 @@ dependencies {
     implementation("net.datafaker:datafaker:2.4.3")
     implementation("org.assertj:assertj-core:3.24.2")
     implementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    implementation("org.awaitility:awaitility:4.2.0")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
     testImplementation("org.aeonbits.owner:owner:1.0.12")

@@ -1,8 +1,8 @@
-api.apiUri=https://freedcamp.com/api/v1
-api.apiKey=your_public_api_key
-api.secretKey=your_secret_api_key
-ui.baseUrl=https://freedcamp.com
-ui.headless=false
-ui.browser=chrome
-ui.email=your_user_email
-ui.password=your_user_password
+baseUrl=
+ui.headless=
+ui.browser=
+ui.email=
+ui.password=
+testUserId=
+testGroupId=
+projectTemplateId=

@@ -8,6 +8,7 @@ import common.annotations.RequiresProject;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -24,6 +25,7 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
+    @Tag("Smoke")
     @DisplayName("Verify create project and return correct response")
     void shouldCreateProjectSuccessfully() {
         var projectDto = TestDataFactory.validProjectDto();

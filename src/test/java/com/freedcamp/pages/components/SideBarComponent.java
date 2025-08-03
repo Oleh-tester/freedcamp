@@ -1,36 +1,49 @@
 package com.freedcamp.pages.components;
 
-import com.freedcamp.pages.CalendarPage;
-import com.freedcamp.pages.HomePage;
-import com.freedcamp.pages.ProjectsPage;
-import com.freedcamp.pages.TasksPage;
+import com.codeborne.selenide.SelenideElement;
+import com.freedcamp.pages.*;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
 public class SideBarComponent {
 
+    private final SelenideElement sidebarMenu = $x("//*[contains(@class, 'Sidebar')]");
+
     @Step("Open Projects page")
     public ProjectsPage openProjectsPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard']").click();
+        sidebarMenu.$x(".//a[@href='/dashboard']").click();
         return new ProjectsPage();
     }
 
     @Step("Open Home page")
     public HomePage openHomePage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/home']").click();
+        sidebarMenu.$x(".//a[@href='/dashboard/home']").click();
         return new HomePage();
     }
 
     @Step("Open Tasks page")
     public TasksPage openTasksPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/tasks']").click();
+        sidebarMenu.$x(".//a[@href='/dashboard/tasks']").click();
         return new TasksPage();
     }
 
     @Step("Open Calendar page")
     public CalendarPage openCalendarPage() {
-        $x("//*[contains(@class, 'Sidebar')]//a[@href='/dashboard/calendar']").click();
+        sidebarMenu.$x(".//a[@href='/dashboard/calendar']").click();
         return new CalendarPage();
+    }
+
+    @Step("Open Time record page")
+    public TimeRecordsPage openTimeRecordsPage() {
+        $x("//*[contains(@class,'justifyContent-start')]").hover();
+        sidebarMenu.$x(".//a[@href='/dashboard/time']").click();
+        return new TimeRecordsPage();
+    }
+
+    @Step("Open User Menu Popover")
+    public UserMenuPopover openUserMenuPopover() {
+        sidebarMenu.$x(".//*[contains(@class, 'UserAvatar-Interactive')]").click();
+        return new UserMenuPopover();
     }
 }

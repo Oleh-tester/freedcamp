@@ -9,6 +9,7 @@ import common.annotations.RequiresProject;
 import common.annotations.RequiresTask;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.freedcamp.assertions.TasksAssertions.*;
@@ -23,6 +24,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @Tag("Smoke")
     @RequiresProject
     @DisplayName("Verify create task in a project.")
     void verifyCreateTaskInProject(CreatedProject createdProject) {
