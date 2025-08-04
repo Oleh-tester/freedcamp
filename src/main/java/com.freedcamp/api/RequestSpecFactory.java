@@ -10,12 +10,11 @@ import org.aeonbits.owner.ConfigFactory;
 
 public class RequestSpecFactory {
 
-    private static final FreedcampConfig config = ConfigFactory.create(FreedcampConfig.class);
+    private static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
 
     public static RequestSpecification getSpec() {
-
         return new RequestSpecBuilder()
-                .setBaseUri(config.baseUrl())
+                .setBaseUri(CONFIG.baseUrl())
                 .setBasePath("/iapi")
                 .addHeader("x-requested-with", "XMLHttpRequest")
                 .addCookies(AuthHelper.getSessionCookie())
@@ -25,11 +24,18 @@ public class RequestSpecFactory {
     }
 
     public static RequestSpecification getSpecWithoutAuth() {
-
         return new RequestSpecBuilder()
-                .setBaseUri(config.baseUrl())
+                .setBaseUri(CONFIG.baseUrl())
                 .setBasePath("/iapi")
                 .addHeader("x-requested-with", "XMLHttpRequest")
+                .addFilter(new LogRequestFilter())
+                .addFilter(new AllureRestAssured())
+                .build();
+    }
+
+    public static RequestSpecification getWebSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri(CONFIG.baseUrl())
                 .addFilter(new LogRequestFilter())
                 .addFilter(new AllureRestAssured())
                 .build();

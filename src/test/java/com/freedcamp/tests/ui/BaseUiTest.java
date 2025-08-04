@@ -19,12 +19,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import static com.codeborne.selenide.Selenide.open;
+@Getter
 @ExtendWith({AllureJunit5.class, TestDataSetupExtension.class})
 public abstract class BaseUiTest {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
 
-    @Getter
     public Faker faker = new Faker();
 
     @BeforeAll

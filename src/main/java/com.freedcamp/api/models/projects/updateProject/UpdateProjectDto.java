@@ -27,8 +27,10 @@ public class UpdateProjectDto {
 	private String projectName;
 
 	@JsonProperty("cf_confirmed_unlink_ids")
+	@Builder.Default
 	private List<Object> cfConfirmedUnlinkIds = new ArrayList<>();
 
 	@JsonProperty("cf_tpl_ids")
+	@Builder.Default
 	private List<Object> cfTplIds = new ArrayList<>();
 }

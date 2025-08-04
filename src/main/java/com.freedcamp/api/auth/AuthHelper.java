@@ -11,36 +11,26 @@ import org.jsoup.nodes.Element;
 
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
-
 public class AuthHelper {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
     private static final LoginController loginController = new LoginController();
-    private static final String LOGIN_ENDPOINT = "/login";
 
     public static Map<String, String> getSessionCookie() {
         String aToken = extractAToken();
 
-        Response loginResponse = given()
-                .baseUri(CONFIG.baseUrl())
-                .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                .header("User-Agent", "Mozilla/5.0")
-                .header("X-Requested-With", "XMLHttpRequest")
-                .formParam("is_ajax", "true")
-                .formParam("username", CONFIG.email())
-                .formParam("password", CONFIG.password())
-                .formParam("remember", "1")
-                .formParam("a_token", aToken)
-                .formParam("f_ajax_login", "1")
-                .post(LOGIN_ENDPOINT);
+        Response loginResponse = loginController.login(
+                CONFIG.email(),
+                CONFIG.password(),
+                aToken
+        );
 
         loginResponse.then().statusCode(200);
 
         return loginResponse.getCookies();
     }
 
-    private static String extractAToken() {
+    public static String extractAToken() {
         try {
             String html = RestAssured
                     .given()
@@ -66,4 +56,3 @@ public class AuthHelper {
         }
     }
 }
-
