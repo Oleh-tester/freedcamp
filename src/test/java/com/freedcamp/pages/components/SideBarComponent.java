@@ -46,4 +46,11 @@ public class SideBarComponent {
         sidebarMenu.$x(".//*[contains(@class, 'UserAvatar-Interactive')]").click();
         return new UserMenuPopover();
     }
+
+    @Step("Open Milestones page")
+    public MilestonesPage openMilestonesPage() {
+        $x("//*[contains(@class,'justifyContent-start')]").hover();
+        sidebarMenu.$x(".//a[@href='/dashboard/milestones']").click();
+        return new MilestonesPage();
+    }
 }
