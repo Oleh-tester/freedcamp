@@ -17,7 +17,7 @@ public class ProjectCreationWaiter {
         this.projectController = projectController;
     }
 
-    public String waitUntilProjectAppears(String projectName) {
+    public void waitUntilProjectAppears(String projectName) {
         try {
             await()
                     .pollDelay(33, SECONDS)
@@ -27,7 +27,6 @@ public class ProjectCreationWaiter {
                     .until(() -> isProjectVisible(projectName));
 
             log.info("Project '{}' successfully created and visible.", projectName);
-            return projectName;
         } catch (ConditionTimeoutException e) {
             log.error("Project '{}' was NOT created within timeout.", projectName, e);
             throw e;

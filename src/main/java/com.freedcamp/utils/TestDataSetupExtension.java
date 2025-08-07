@@ -5,6 +5,7 @@ import com.freedcamp.api.controllers.TaskController;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
 import com.freedcamp.testdata.CreatedTask;
+import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectFromTemplate;
 import common.annotations.RequiresTask;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
 import java.lang.reflect.Method;
 
-public class TestDataSetupExtension implements BeforeEachCallback, ParameterResolver {
+public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
     private static final Namespace NAMESPACE = Namespace.create(TestDataSetupExtension.class);
 
@@ -54,6 +55,40 @@ public class TestDataSetupExtension implements BeforeEachCallback, ParameterReso
             store.put("createdTask", createdTask);
         }
     }
+
+    @Override
+    public void afterEach(ExtensionContext context) {
+        ExtensionContext.Store store = context.getStore(NAMESPACE);
+        Method testMethod = context.getRequiredTestMethod();
+
+        if (testMethod.isAnnotationPresent(DeletesOwnData.class)) {
+            return;
+        }
+
+        var testDataProvider = new TestDataProvider(
+                new ProjectController(),
+                new TaskController(),
+                new ProjectCreationWaiter(new ProjectController())
+        );
+
+        if (testMethod.isAnnotationPresent(RequiresProject.class) || testMethod.isAnnotationPresent(RequiresTask.class)) {
+            var createdProject = store.get("createdProject", CreatedProject.class);
+            if (createdProject != null) {
+                var projectId = createdProject.createdProjectResponseDto().getData()
+                        .getProjects().get(0).getId();
+                testDataProvider.deleteCreatedProject(projectId);
+            }
+        }
+
+        if (testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class)) {
+            var createdProjectFromTemplate = store.get("createdProjectFromTemplate", CreatedProjectFromTemplate.class);
+            if (createdProjectFromTemplate != null) {
+                var projectId = createdProjectFromTemplate.createdProject().getProjectId();
+                testDataProvider.deleteCreatedProject(projectId);
+            }
+        }
+    }
+
 
     @Override
     public boolean supportsParameter(ParameterContext paramCtx, ExtensionContext extCtx) {

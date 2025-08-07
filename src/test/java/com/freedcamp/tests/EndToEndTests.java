@@ -23,7 +23,7 @@ public class EndToEndTests extends BaseUiTest {
     @Tag("E2e")
     @Description("Verify logging time on project.")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
-        var targetProject = createdProject.projectName();
+        var targetProject = createdProject.createdProject().getProjectName();
         var timeRecord = TimeRecordFactory.validCompleted(targetProject);
         open("");
         new LoginPage()

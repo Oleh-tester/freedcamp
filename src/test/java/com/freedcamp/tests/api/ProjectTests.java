@@ -4,6 +4,7 @@ import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.api.models.TestDataFactory;
 import com.freedcamp.utils.TestDataSetupExtension;
+import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeAll;
@@ -46,6 +47,7 @@ public class ProjectTests extends BaseApiTest {
     @Test
     @DisplayName("Verify deleting a project")
     @RequiresProject
+    @DeletesOwnData
     void shouldDeleteProjectSuccessfully(CreatedProject createdProject) {
         var targetProjectId = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getId();
 
@@ -56,6 +58,7 @@ public class ProjectTests extends BaseApiTest {
     @Test
     @DisplayName("Verify project is deleted and not found after deletion")
     @RequiresProject
+    @DeletesOwnData
     void shouldNotFindDeletedProject(CreatedProject createdProject) {
         var targetProjectId = createAndThenDeleteTestProject(createdProject);
 

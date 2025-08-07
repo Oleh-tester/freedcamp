@@ -14,7 +14,7 @@ public class MilestonesTests extends BaseUiTest {
     @Tag("UI")
     @Description("Test for creating a new milestone")
     void createNewMilestone(CreatedProjectFromTemplate project) {
-        var targetProject = project.projectName();
+        var targetProject = project.createdProject().getProjectName();
         var milestoneName = "Milestone" + faker.number().digits(3);
         new HomePage()
                 .verifyHomePageIsLoaded()

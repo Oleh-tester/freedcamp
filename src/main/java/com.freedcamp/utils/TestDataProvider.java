@@ -4,6 +4,7 @@ import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.api.controllers.TaskController;
 import com.freedcamp.api.models.TestDataFactory;
 import com.freedcamp.api.models.projects.createProjectResponse.CreateProjectResponseDto;
+import com.freedcamp.api.models.projects.getAllProjects.GetAllProjectsDto;
 import com.freedcamp.api.models.tasks.CreateTaskResponseDto;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
@@ -25,9 +26,8 @@ public class TestDataProvider {
         this.taskController = taskController;
         this.projectCreationWaiter = projectCreationWaiter;
     }
-
     /**
-     * Creates a random project and returns responseDto.
+     * Creates a project and returns the created project and original DTO for later use.
      */
     public CreatedProject createProject() {
         var projectDto = TestDataFactory.validProjectDto();
@@ -64,8 +64,23 @@ public class TestDataProvider {
         var response = projectController.createProjectFromTemplate(projectDto);
         assertThat(response.statusCode()).isEqualTo(200);
 
-        var createdProject = projectCreationWaiter.waitUntilProjectAppears(projectDto.getProjectName());
+        projectCreationWaiter.waitUntilProjectAppears(projectDto.getProjectName());
 
-        return new CreatedProjectFromTemplate(createdProject, projectDto);
+        var createdProjectDto = projectController.getAllProjects()
+                .as(GetAllProjectsDto.class)
+                .getData().getProjects().stream()
+                .filter(project -> project.getProjectName().equals(projectDto.getProjectName()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Created project not found"));
+
+        return new CreatedProjectFromTemplate(createdProjectDto, projectDto);
+    }
+
+    /**
+     * Deletes the created project by ID.
+     */
+    public void deleteCreatedProject(String projectId) {
+        Response response = projectController.deleteProject(projectId);
+        assertThat(response.statusCode()).isEqualTo(200);
     }
 }

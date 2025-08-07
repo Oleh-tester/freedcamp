@@ -14,16 +14,16 @@ public class TimeRecordsTests extends BaseUiTest {
     @Tag("UI")
     @Description("Test for creating a new time record on a project")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate targetProject) {
-        var projectName = targetProject.projectName();
+        var targetProjectName = targetProject.createdProject().getProjectName();
         var timeRecord = "Test record " + faker.number().digits(4);
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTimeRecordsPage()
                 .verifyTimeRecordsPageIsLoaded()
                 .openAddTimeRecordSidebar()
-                .selectProjectFromDropdown(projectName)
+                .selectProjectFromDropdown(targetProjectName)
                 .enterRecordTitleQuickAdd(timeRecord)
                 .clickQuickAddButton()
-                .verifyTimeRecordIsDisplayedByDescriptionAndProject(timeRecord, projectName);
+                .verifyTimeRecordIsDisplayedByDescriptionAndProject(timeRecord, targetProjectName);
     }
 }
