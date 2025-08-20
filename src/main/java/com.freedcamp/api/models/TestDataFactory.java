@@ -1,6 +1,7 @@
 package com.freedcamp.api.models;
 
 import com.freedcamp.api.controllers.ListController;
+import com.freedcamp.api.models.calendarEvents.CreateCalendarEventDto;
 import com.freedcamp.api.models.projects.CreateProjectDto;
 import com.freedcamp.api.models.projects.CreateProjectFromTemplateDto;
 import com.freedcamp.api.models.projects.updateProject.UpdateProjectDto;
@@ -10,6 +11,8 @@ import com.freedcamp.utils.FreedcampConfig;
 import net.datafaker.Faker;
 import org.aeonbits.owner.ConfigFactory;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TestDataFactory {
@@ -95,5 +98,19 @@ public class TestDataFactory {
         validTaskDto.setStatus(999);
         validTaskDto.setTitle("");
         return validTaskDto;
+    }
+
+    public static CreateCalendarEventDto validCalendarEventDto(String projectId) {
+        var dateFrom = LocalDate.now();
+        var dateTo = dateFrom.plusDays(20);
+        return CreateCalendarEventDto
+                .builder()
+                .title("Event_" + faker.number().digits(4))
+                .projectId(projectId)
+                .dateStart(dateFrom.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .dateEnd(dateTo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .timeFrom("00:00")
+                .timeTo("00:00")
+                .build();
     }
 }

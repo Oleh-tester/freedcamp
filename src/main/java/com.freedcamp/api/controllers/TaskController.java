@@ -1,6 +1,6 @@
 package com.freedcamp.api.controllers;
 
-import com.freedcamp.api.RequestSpecFactory;
+import com.freedcamp.api.helpers.RequestSpecFactory;
 import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;

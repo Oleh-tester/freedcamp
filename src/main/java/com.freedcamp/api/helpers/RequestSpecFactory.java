@@ -1,4 +1,4 @@
-package com.freedcamp.api;
+package com.freedcamp.api.helpers;
 
 import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
