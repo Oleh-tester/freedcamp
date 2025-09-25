@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class LoginTests extends BaseApiTest {
 
-
     @Test
     @Tag("API")
     @Tag("Smoke")

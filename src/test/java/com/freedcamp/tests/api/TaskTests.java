@@ -110,6 +110,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresTask
     @DisplayName("Should fetch all tasks and verify each task has project_id")
     void shouldVerifyProjectIdAssociationInAllTasks() {
         var getAllTasksResponse = taskController.getAllTasks();

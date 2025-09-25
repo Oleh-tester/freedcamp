@@ -192,4 +192,7 @@ public class TasksItem{
 
 	@JsonProperty("progress")
 	private int progress;
+
+    @JsonProperty("ms_id")
+    private String msId;
 }

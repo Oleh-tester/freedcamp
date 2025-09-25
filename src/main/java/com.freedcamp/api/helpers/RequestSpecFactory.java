@@ -17,7 +17,18 @@ public class RequestSpecFactory {
                 .setBaseUri(CONFIG.baseUrl())
                 .setBasePath("/iapi")
                 .addHeader("x-requested-with", "XMLHttpRequest")
-                .addCookies(AuthHelper.getSessionCookie())
+                .addCookies(AuthHelper.getOwnerSessionCookie())
+                .addFilter(new LogRequestFilter())
+                .addFilter(new AllureRestAssured())
+                .build();
+    }
+
+    public static RequestSpecification getMemberSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri(CONFIG.baseUrl())
+                .setBasePath("/iapi")
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .addCookies(AuthHelper.getMemberSessionCookie())
                 .addFilter(new LogRequestFilter())
                 .addFilter(new AllureRestAssured())
                 .build();
@@ -36,6 +47,17 @@ public class RequestSpecFactory {
     public static RequestSpecification getWebSpec() {
         return new RequestSpecBuilder()
                 .setBaseUri(CONFIG.baseUrl())
+                .addFilter(new LogRequestFilter())
+                .addFilter(new AllureRestAssured())
+                .build();
+    }
+
+    public static RequestSpecification getSpecWithCookies(java.util.Map<String,String> cookies) {
+        return new RequestSpecBuilder()
+                .setBaseUri(CONFIG.baseUrl())
+                .setBasePath("/iapi")
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .addCookies(cookies)
                 .addFilter(new LogRequestFilter())
                 .addFilter(new AllureRestAssured())
                 .build();

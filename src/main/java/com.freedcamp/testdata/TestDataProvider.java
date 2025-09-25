@@ -1,31 +1,34 @@
-package com.freedcamp.utils;
+package com.freedcamp.testdata;
 
+import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.api.controllers.TaskController;
 import com.freedcamp.api.models.TestDataFactory;
+import com.freedcamp.api.models.groups.CreateGroupResponseDto;
 import com.freedcamp.api.models.projects.createProjectResponse.CreateProjectResponseDto;
 import com.freedcamp.api.models.projects.getAllProjects.GetAllProjectsDto;
 import com.freedcamp.api.models.tasks.CreateTaskResponseDto;
-import com.freedcamp.testdata.CreatedProject;
-import com.freedcamp.testdata.CreatedProjectFromTemplate;
-import com.freedcamp.testdata.CreatedTask;
+import com.freedcamp.utils.ProjectCreationWaiter;
 import io.restassured.response.Response;
 
 import static com.freedcamp.api.models.TestDataFactory.validTaskDto;
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 public class TestDataProvider {
 
     private final ProjectController projectController;
     private final TaskController taskController;
     private final ProjectCreationWaiter projectCreationWaiter;
+    private final GroupController groupController;
 
-    public TestDataProvider(ProjectController projectController, TaskController taskController, ProjectCreationWaiter projectCreationWaiter) {
+    public TestDataProvider(ProjectController projectController, TaskController taskController,GroupController groupController,
+                            ProjectCreationWaiter projectCreationWaiter) {
         this.projectController = projectController;
         this.taskController = taskController;
+        this.groupController = groupController;
         this.projectCreationWaiter = projectCreationWaiter;
     }
+
     /**
      * Creates a project and returns the created project and original DTO for later use.
      */
@@ -82,5 +85,52 @@ public class TestDataProvider {
     public void deleteCreatedProject(String projectId) {
         Response response = projectController.deleteProject(projectId);
         assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    /**
+     * Creates a group and returns the created groupId.
+     */
+    public String createGroup() {
+        var createGroupDto = TestDataFactory.validCreateGroupDto();
+        var response = groupController.createGroup(createGroupDto);
+        assertThat(response.statusCode()).isEqualTo(200);
+        return response.as(CreateGroupResponseDto.class).getData().getGroups().get(0).getGroupId();
+    }
+
+    /**
+     * Deletes the created group by ID.
+     */
+    public void deleteGroup(String groupId) {
+        var response = groupController.deleteGroup(Integer.parseInt(groupId));
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    /**
+     * Creates a project in the specified group and returns the created project and original DTO for later use.
+     */
+    public CreatedProject createProjectInGroup(String groupId) {
+        var projectDto = com.freedcamp.api.models.TestDataFactory.validProjectDto();
+        projectDto.setGroupId(groupId);
+        var response = projectController.createProject(projectDto);
+        org.assertj.core.api.Assertions.assertThat(response.statusCode()).isEqualTo(200);
+        return new CreatedProject(response.as(com.freedcamp.api.models.projects.createProjectResponse.CreateProjectResponseDto.class), projectDto);
+    }
+
+    /**
+     * Creates a project from a template in the specified group and returns the created project and original DTO for later use.
+     */
+    public CreatedProjectFromTemplate createdProjectFromTemplateInGroup(String groupId) {
+        var projectDto = com.freedcamp.api.models.TestDataFactory.validProjectFromTemplateDto();
+        projectDto.setGroupId(groupId);
+        var response = projectController.createProjectFromTemplate(projectDto);
+        org.assertj.core.api.Assertions.assertThat(response.statusCode()).isEqualTo(200);
+        projectCreationWaiter.waitUntilProjectAppears(projectDto.getProjectName());
+        var createdProjectDto = projectController.getAllProjects()
+                .as(com.freedcamp.api.models.projects.getAllProjects.GetAllProjectsDto.class)
+                .getData().getProjects().stream()
+                .filter(project -> project.getProjectName().equals(projectDto.getProjectName()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Created project not found"));
+        return new CreatedProjectFromTemplate(createdProjectDto, projectDto);
     }
 }

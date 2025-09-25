@@ -1,14 +1,10 @@
-package com.freedcamp.utils;
+package com.freedcamp.testdata;
 
+import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.api.controllers.TaskController;
-import com.freedcamp.testdata.CreatedProject;
-import com.freedcamp.testdata.CreatedProjectFromTemplate;
-import com.freedcamp.testdata.CreatedTask;
-import common.annotations.DeletesOwnData;
-import common.annotations.RequiresProject;
-import common.annotations.RequiresProjectFromTemplate;
-import common.annotations.RequiresTask;
+import com.freedcamp.utils.ProjectCreationWaiter;
+import common.annotations.*;
 import org.junit.jupiter.api.extension.*;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 
@@ -22,29 +18,45 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
     public void beforeEach(ExtensionContext context) {
         var projectController = new ProjectController();
         var taskController = new TaskController();
+        var groupController = new GroupController();
         TestDataProvider testDataProvider = new TestDataProvider(
                 projectController,
                 taskController,
-                new ProjectCreationWaiter(projectController)
-        );
+                groupController,
+                new ProjectCreationWaiter(projectController));
 
         Method testMethod = context.getRequiredTestMethod();
         ExtensionContext.Store store = context.getStore(NAMESPACE);
 
+        boolean needsGroup = testMethod.isAnnotationPresent(RequiresProject.class)
+                || testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class)
+                || testMethod.isAnnotationPresent(RequiresTask.class);
+
+        String createdGroupId = null;
+        if (needsGroup) {
+            createdGroupId = testDataProvider.createGroup();
+            store.put("createdGroup", createdGroupId);
+        }
+
         if (testMethod.isAnnotationPresent(RequiresProject.class)) {
-            var createdProject = testDataProvider.createProject();
+            var createdProject = testDataProvider.createProjectInGroup(createdGroupId);
             store.put("createdProject", createdProject);
         }
 
         if (testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class)) {
-            var createdProject = testDataProvider.createdProjectFromTemplate();
+            var createdProject = testDataProvider.createdProjectFromTemplateInGroup(createdGroupId);
             store.put("createdProjectFromTemplate", createdProject);
         }
 
         if (testMethod.isAnnotationPresent(RequiresTask.class)) {
             var createdProject = store.get("createdProject", CreatedProject.class);
             if (createdProject == null) {
-                createdProject = testDataProvider.createProject();
+                // Ensure group exists
+                if (createdGroupId == null) {
+                    createdGroupId = testDataProvider.createGroup();
+                    store.put("createdGroup", createdGroupId);
+                }
+                createdProject = testDataProvider.createProjectInGroup(createdGroupId);
                 store.put("createdProject", createdProject);
             }
 
@@ -68,33 +80,25 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
         var testDataProvider = new TestDataProvider(
                 new ProjectController(),
                 new TaskController(),
+                new GroupController(),
                 new ProjectCreationWaiter(new ProjectController())
         );
 
-        if (testMethod.isAnnotationPresent(RequiresProject.class) || testMethod.isAnnotationPresent(RequiresTask.class)) {
-            var createdProject = store.get("createdProject", CreatedProject.class);
-            if (createdProject != null) {
-                var projectId = createdProject.createdProjectResponseDto().getData()
-                        .getProjects().get(0).getId();
-                testDataProvider.deleteCreatedProject(projectId);
-            }
-        }
+        if (testMethod.isAnnotationPresent(RequiresProject.class) || testMethod.isAnnotationPresent(RequiresTask.class)
+                || testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class))  {
 
-        if (testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class)) {
-            var createdProjectFromTemplate = store.get("createdProjectFromTemplate", CreatedProjectFromTemplate.class);
-            if (createdProjectFromTemplate != null) {
-                var projectId = createdProjectFromTemplate.createdProject().getProjectId();
-                testDataProvider.deleteCreatedProject(projectId);
+            var createdGroupId = store.get("createdGroup", String.class);
+            if (createdGroupId != null) {
+                testDataProvider.deleteGroup(createdGroupId);
             }
         }
     }
-
 
     @Override
     public boolean supportsParameter(ParameterContext paramCtx, ExtensionContext extCtx) {
         Class<?> type = paramCtx.getParameter().getType();
         return type == CreatedTask.class ||
-                type == CreatedProject.class || type == CreatedProjectFromTemplate.class;
+                type == CreatedProject.class || type == CreatedProjectFromTemplate.class || type == String.class;
     }
 
     @Override
@@ -112,6 +116,10 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
 
         if (type == CreatedProjectFromTemplate.class) {
             return store.get("createdProjectFromTemplate", CreatedProjectFromTemplate.class);
+        }
+
+        if (type == String.class) {
+            return store.get("createdGroup", String.class);
         }
 
         throw new ParameterResolutionException("Unsupported type: " + type);

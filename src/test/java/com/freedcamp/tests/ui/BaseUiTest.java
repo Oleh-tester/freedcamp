@@ -3,7 +3,7 @@ package com.freedcamp.tests.ui;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import com.freedcamp.utils.TestDataSetupExtension;
+import com.freedcamp.testdata.TestDataSetupExtension;
 import common.annotations.SkipSessionInjection;
 import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
@@ -58,7 +58,7 @@ public abstract class BaseUiTest {
             return;
         }
 
-        var session = AuthHelper.getSessionCookie();
+        var session = AuthHelper.getOwnerSessionCookie();
         open("/");
         WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("ci_session", session.get("ci_session")));
         open("/dashboard/home");

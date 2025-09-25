@@ -3,7 +3,7 @@ package com.freedcamp.tests.api;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.api.models.TestDataFactory;
-import com.freedcamp.utils.TestDataSetupExtension;
+import com.freedcamp.testdata.TestDataSetupExtension;
 import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
 import io.qameta.allure.junit5.AllureJunit5;
@@ -60,7 +60,7 @@ public class ProjectTests extends BaseApiTest {
     @RequiresProject
     @DeletesOwnData
     void shouldNotFindDeletedProject(CreatedProject createdProject) {
-        var targetProjectId = createAndThenDeleteTestProject(createdProject);
+        var targetProjectId = deleteTestProject(createdProject);
 
         var getProjectResponse = projectController.getProjectById(targetProjectId);
         assertEquals(400, getProjectResponse.statusCode(), "Project should be deleted and not found");
@@ -78,7 +78,7 @@ public class ProjectTests extends BaseApiTest {
         verifyProjectUpdatedCorrectly(updateProjectResponse, updatedProjectDto);
     }
 
-    private String createAndThenDeleteTestProject(CreatedProject createdProject) {
+    private String deleteTestProject(CreatedProject createdProject) {
         var targetProjectId = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getId();
 
         var deleteProjectResponse = projectController.deleteProject(targetProjectId);

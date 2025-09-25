@@ -1,4 +1,4 @@
-package com.freedcamp.api.models.tasks;
+package com.freedcamp.api.models.groups.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Meta {
+public class GroupUsersItem {
 
-	@JsonProperty("has_more")
-	private boolean hasMore;
+	@JsonProperty("role_type")
+	private String roleType;
+
+	@JsonProperty("id")
+	private String id;
 }

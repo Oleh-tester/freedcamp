@@ -2,8 +2,11 @@ package com.freedcamp.api.models;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.calendarEvents.CreateCalendarEventDto;
+import com.freedcamp.api.models.groups.CreateGroupDto;
+import com.freedcamp.api.models.projects.AddUserToGroupDto;
 import com.freedcamp.api.models.projects.CreateProjectDto;
 import com.freedcamp.api.models.projects.CreateProjectFromTemplateDto;
+import com.freedcamp.api.models.projects.UsersItem;
 import com.freedcamp.api.models.projects.updateProject.UpdateProjectDto;
 import com.freedcamp.api.models.tasks.TaskDto;
 import com.freedcamp.api.models.tasks.TaskConditions;
@@ -112,5 +115,24 @@ public class TestDataFactory {
                 .timeFrom("00:00")
                 .timeTo("00:00")
                 .build();
+    }
+
+    public static CreateGroupDto validCreateGroupDto() {
+        return CreateGroupDto.builder()
+                .name("Group_" + faker.company().name() + "_" + faker.number().digits(4))
+                .description(faker.lorem().sentence(5))
+                .fSms(true)
+                .build();
+    }
+
+    public static AddUserToGroupDto addUserToGroupDto() {
+        return AddUserToGroupDto.builder()
+                .invitedGlobalTeams(List.of())
+                .users(List.of(
+                        UsersItem.builder()
+                                .email("khomik.oleg1904+" + faker.number().digits(4) + "@gmail.com")
+                                .name("User_" + faker.name().firstName() + "_" + faker.number().digits(4))
+                                .contextRoleId("-1")
+                                .build())).build();
     }
 }

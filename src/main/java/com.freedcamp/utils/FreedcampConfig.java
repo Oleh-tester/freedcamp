@@ -13,11 +13,17 @@ public interface FreedcampConfig extends Config {
     @Key("ui.headless")
     boolean headless();
 
-    @Key("ui.email")
+    @Key("owner.email")
     String email();
 
-    @Key("ui.password")
+    @Key("owner.password")
     String password();
+
+    @Key("member.email")
+    String memberEmail();
+
+    @Key("member.password")
+    String memberPassword();
 
     @Key("testUserId")
     String testUserId();

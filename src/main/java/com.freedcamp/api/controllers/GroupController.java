@@ -1,7 +1,9 @@
 package com.freedcamp.api.controllers;
 
 import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -9,10 +11,10 @@ import static io.restassured.RestAssured.given;
 public class GroupController extends BaseController<GroupController> {
 
     @Step("Create new group")
-    public Response createGroup(String name) {
-        return given()
-                .spec(RequestSpecFactory.getSpec())
-                .multiPart("name", name)
+    public Response createGroup(Object group) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), group)
                 .when()
                 .post("/groups")
                 .then()
@@ -20,13 +22,12 @@ public class GroupController extends BaseController<GroupController> {
                 .response();
     }
 
-    @Step("Move project {projectId} to group {groupId}")
-    public Response moveProjectToGroup(String projectId, String groupId) {
+    @Step("Delete new group")
+    public Response deleteGroup(int groupId) {
         return given()
                 .spec(RequestSpecFactory.getSpec())
-                .multiPart("group_id", groupId)
                 .when()
-                .post("/projects/" + projectId + "/group")
+                .delete("/groups/{groupId}", groupId)
                 .then()
                 .extract()
                 .response();
@@ -38,6 +39,18 @@ public class GroupController extends BaseController<GroupController> {
                 .spec(RequestSpecFactory.getSpec())
                 .when()
                 .get("/groups")
+                .then()
+                .extract()
+                .response();
+    }
+
+    @Step("Add user to the project group")
+    public Response addUserToProjectGroup(String projectId, Object group) {
+        return FormDataSpecHelper.applyJsonFormData(given()
+                        .spec(RequestSpecFactory.getSpec())
+                        .contentType(ContentType.MULTIPART), group)
+                .when()
+                .post("/group_memberships/" + projectId)
                 .then()
                 .extract()
                 .response();

@@ -1,4 +1,4 @@
-package com.freedcamp.api.models.tasks;
+package com.freedcamp.api.models.groups;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,10 +6,10 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @lombok.Data
-@AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class CreateTaskResponseDto {
+@AllArgsConstructor
+public class CreateGroupResponseDto {
 
 	@JsonProperty("msg")
 	private String msg;
