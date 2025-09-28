@@ -1,6 +1,6 @@
 package com.freedcamp.api.controllers;
 
-import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.RequestSpecFactory;
 import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class EventController extends BaseController<EventController> {
+public class EventController extends BaseController {
 
     @Step("Create calendar event in a project")
     public Response createCalendarEvent(Object calendarEvent) {

@@ -1,6 +1,6 @@
 package com.freedcamp.api.controllers;
 
-import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.RequestSpecFactory;
 import com.freedcamp.utils.FormDataSpecHelper;
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
@@ -9,7 +9,7 @@ import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
 
-public class TaskController extends BaseController<TaskController> {
+public class TaskController extends BaseController {
 
     @Step("Get all tasks")
     public Response getAllTasks(RequestSpecification spec) {

@@ -19,12 +19,6 @@ public interface FreedcampConfig extends Config {
     @Key("owner.password")
     String password();
 
-    @Key("member.email")
-    String memberEmail();
-
-    @Key("member.password")
-    String memberPassword();
-
     @Key("testUserId")
     String testUserId();
 

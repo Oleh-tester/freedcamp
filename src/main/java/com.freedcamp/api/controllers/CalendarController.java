@@ -1,12 +1,12 @@
 package com.freedcamp.api.controllers;
 
-import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.RequestSpecFactory;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class CalendarController extends BaseController<CalendarController> {
+public class CalendarController extends BaseController {
 
     @Step("Get all calendar events")
     public Response getCalendarEvents() {

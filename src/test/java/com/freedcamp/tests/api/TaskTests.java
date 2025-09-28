@@ -1,6 +1,6 @@
 package com.freedcamp.tests.api;
 
-import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.RequestSpecFactory;
 import com.freedcamp.api.controllers.TaskController;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.api.models.TestDataFactory;

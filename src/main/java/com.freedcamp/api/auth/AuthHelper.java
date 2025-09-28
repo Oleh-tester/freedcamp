@@ -2,20 +2,13 @@ package com.freedcamp.api.auth;
 
 import com.freedcamp.api.controllers.LoginController;
 import com.freedcamp.utils.FreedcampConfig;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.aeonbits.owner.ConfigFactory;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static java.util.logging.Level.CONFIG;
 
 public class AuthHelper {
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
@@ -27,14 +20,6 @@ public class AuthHelper {
 
     public static Map<String, String> getOwnerSessionCookie() {
         return getOrLogin("OWNER", CONFIG.email(), CONFIG.password());
-    }
-
-    public static Map<String, String> getMemberSessionCookie() {
-        return getOrLogin("MEMBER", CONFIG.memberEmail(), CONFIG.memberPassword());
-    }
-
-    public static Map<String, String> getSessionCookie(String key, String email, String password) {
-        return getOrLogin(key, email, password);
     }
 
     private static Map<String, String> getOrLogin(String key, String email, String password) {

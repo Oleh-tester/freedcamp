@@ -1,8 +1,6 @@
-package com.freedcamp.api.helpers;
+package com.freedcamp.utils;
 
 import com.freedcamp.api.auth.AuthHelper;
-import com.freedcamp.utils.FreedcampConfig;
-import com.freedcamp.utils.LogRequestFilter;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -18,17 +16,6 @@ public class RequestSpecFactory {
                 .setBasePath("/iapi")
                 .addHeader("x-requested-with", "XMLHttpRequest")
                 .addCookies(AuthHelper.getOwnerSessionCookie())
-                .addFilter(new LogRequestFilter())
-                .addFilter(new AllureRestAssured())
-                .build();
-    }
-
-    public static RequestSpecification getMemberSpec() {
-        return new RequestSpecBuilder()
-                .setBaseUri(CONFIG.baseUrl())
-                .setBasePath("/iapi")
-                .addHeader("x-requested-with", "XMLHttpRequest")
-                .addCookies(AuthHelper.getMemberSessionCookie())
                 .addFilter(new LogRequestFilter())
                 .addFilter(new AllureRestAssured())
                 .build();

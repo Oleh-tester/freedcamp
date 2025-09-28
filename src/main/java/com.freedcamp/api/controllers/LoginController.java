@@ -1,12 +1,12 @@
 package com.freedcamp.api.controllers;
 
-import com.freedcamp.api.helpers.RequestSpecFactory;
+import com.freedcamp.utils.RequestSpecFactory;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class LoginController extends BaseController<LoginController> {
+public class LoginController extends BaseController {
 
     @Step("Login")
     public Response login(String email, String password, String aToken) {
