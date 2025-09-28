@@ -6,6 +6,7 @@ import com.freedcamp.api.models.TestDataFactory;
 import com.freedcamp.testdata.TestDataSetupExtension;
 import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
+import common.annotations.RequiresProjectGroup;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -26,18 +27,19 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresProjectGroup
     @Tag("Smoke")
     @DisplayName("Verify create project and return correct response")
-    void shouldCreateProjectSuccessfully() {
-        var projectDto = TestDataFactory.validProjectDto();
+    void shouldCreateProjectSuccessfully(String createdGroupId) {
+        var projectDto = TestDataFactory.validProjectDtoWithGroup(createdGroupId);
 
         var createProjectResponse = projectController.createProject(projectDto);
         verifyProjectCreatedCorrectly(createProjectResponse, projectDto);
     }
 
     @Test
-    @DisplayName("Verify project is displayed in all projects after creation")
     @RequiresProject
+    @DisplayName("Verify project is displayed in all projects after creation")
     void shouldDisplayProjectInAllProjectsAfterCreation(CreatedProject createdProject) {
 
         var getAllProjectsResponse = projectController.getAllProjects();
@@ -45,9 +47,9 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("Verify deleting a project")
     @RequiresProject
     @DeletesOwnData
+    @DisplayName("Verify deleting a project")
     void shouldDeleteProjectSuccessfully(CreatedProject createdProject) {
         var targetProjectId = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getId();
 
@@ -56,9 +58,9 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("Verify project is deleted and not found after deletion")
-    @RequiresProject
     @DeletesOwnData
+    @RequiresProject
+    @DisplayName("Verify project is deleted and not found after deletion")
     void shouldNotFindDeletedProject(CreatedProject createdProject) {
         var targetProjectId = deleteTestProject(createdProject);
 
@@ -67,14 +69,13 @@ public class ProjectTests extends BaseApiTest {
     }
 
     @Test
-    @DisplayName("Verify update project and validate response")
     @RequiresProject
+    @DisplayName("Verify update project and validate response")
     void verifyUpdateProjectAndValidateResponse(CreatedProject createdProject) {
         var testProject = createdProject.createdProjectResponseDto().getData().getProjects().get(0);
-        var updatedProjectDto = TestDataFactory.updateProjectDto();
+        var updatedProjectDto = TestDataFactory.updateProjectDto(testProject.getGroupId());
 
-        var updateProjectResponse = projectController.updateProject(updatedProjectDto,
-                testProject.getProjectId());
+        var updateProjectResponse = projectController.updateProject(updatedProjectDto, testProject.getProjectId());
         verifyProjectUpdatedCorrectly(updateProjectResponse, updatedProjectDto);
     }
 

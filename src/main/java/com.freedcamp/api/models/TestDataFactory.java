@@ -24,7 +24,6 @@ public class TestDataFactory {
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
     private static final ListController listController = new ListController();
 
-
     public static CreateProjectDto validProjectDto() {
         return CreateProjectDto.builder()
                 .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
@@ -34,6 +33,12 @@ public class TestDataFactory {
                 .usageType("personal")
                 .groupId(CONFIG.testGroupId())
                 .build();
+    }
+
+    public static CreateProjectDto validProjectDtoWithGroup(String groupId) {
+        var projectDto = validProjectDto();
+        projectDto.setGroupId(groupId);
+        return projectDto;
     }
 
     public static CreateProjectFromTemplateDto validProjectFromTemplateDto() {
@@ -47,12 +52,12 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static UpdateProjectDto updateProjectDto() {
+    public static UpdateProjectDto updateProjectDto(String groupId) {
         return UpdateProjectDto.builder()
                 .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
-                .groupId(CONFIG.testGroupId())
+                .groupId(groupId)
                 .build();
     }
 

@@ -2,8 +2,7 @@ package com.freedcamp.tests.api;
 
 import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.models.TestDataFactory;
-import com.freedcamp.testdata.CreatedProject;
-import common.annotations.RequiresProject;
+import common.annotations.RequiresProjectGroup;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -22,14 +21,13 @@ public class UsersTests extends BaseApiTest {
 
     @Test
     @Tag("Smoke")
-    @RequiresProject
+    @RequiresProjectGroup
     @DisplayName("Verify adding user to the project group.")
-    void verifyAddingUserToTheProjectGroup(CreatedProject createdProject) {
+    void verifyAddingUserToTheProjectGroup(String groupId) {
         var targetEmail = faker.internet().safeEmailAddress();
         var addUserToGroupDto = TestDataFactory.addUserToGroupDto(targetEmail);
 
-        var addUserResponse = groupController.addUserToProjectGroup(createdProject.createdProjectResponseDto().getData().getGroups().get(0).getGroupId(),
-                addUserToGroupDto);
+        var addUserResponse = groupController.addUserToProjectGroup(groupId, addUserToGroupDto);
         verifyUserAddedToGroupResponse(addUserResponse, addUserToGroupDto);
     }
 }

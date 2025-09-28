@@ -1,6 +1,7 @@
 package com.freedcamp.tests.ui;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.freedcamp.testdata.TestDataSetupExtension;
@@ -11,6 +12,7 @@ import io.qameta.allure.junit5.AllureJunit5;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.Getter;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Cookie;
@@ -46,6 +48,16 @@ public abstract class BaseUiTest {
                         .savePageSource(true)
                         .includeSelenideSteps(true)
         );
+    }
+
+    @AfterEach
+    void afterEach() {
+        try {
+            Selenide.clearBrowserCookies();
+            Selenide.clearBrowserLocalStorage();
+        } finally {
+            Selenide.closeWebDriver();
+        }
     }
 
     @BeforeEach

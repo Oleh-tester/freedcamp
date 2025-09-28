@@ -33,9 +33,9 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
                 || testMethod.isAnnotationPresent(RequiresTask.class);
 
         String createdGroupId = null;
-        if (needsGroup) {
+        if (needsGroup || testMethod.isAnnotationPresent(RequiresProjectGroup.class)) {
             createdGroupId = testDataProvider.createGroup();
-            store.put("createdGroup", createdGroupId);
+            store.put("createdGroupId", createdGroupId);
         }
 
         if (testMethod.isAnnotationPresent(RequiresProject.class)) {
@@ -51,10 +51,9 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
         if (testMethod.isAnnotationPresent(RequiresTask.class)) {
             var createdProject = store.get("createdProject", CreatedProject.class);
             if (createdProject == null) {
-                // Ensure group exists
                 if (createdGroupId == null) {
                     createdGroupId = testDataProvider.createGroup();
-                    store.put("createdGroup", createdGroupId);
+                    store.put("createdGroupId", createdGroupId);
                 }
                 createdProject = testDataProvider.createProjectInGroup(createdGroupId);
                 store.put("createdProject", createdProject);
@@ -85,9 +84,9 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
         );
 
         if (testMethod.isAnnotationPresent(RequiresProject.class) || testMethod.isAnnotationPresent(RequiresTask.class)
-                || testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class))  {
+                || testMethod.isAnnotationPresent(RequiresProjectFromTemplate.class) || testMethod.isAnnotationPresent(RequiresProjectGroup.class)) {
 
-            var createdGroupId = store.get("createdGroup", String.class);
+            var createdGroupId = store.get("createdGroupId", String.class);
             if (createdGroupId != null) {
                 testDataProvider.deleteGroup(createdGroupId);
             }
@@ -119,7 +118,7 @@ public class TestDataSetupExtension implements BeforeEachCallback, AfterEachCall
         }
 
         if (type == String.class) {
-            return store.get("createdGroup", String.class);
+            return store.get("createdGroupId", String.class);
         }
 
         throw new ParameterResolutionException("Unsupported type: " + type);

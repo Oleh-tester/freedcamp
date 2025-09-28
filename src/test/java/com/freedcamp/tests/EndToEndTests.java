@@ -1,5 +1,6 @@
 package com.freedcamp.tests;
 
+import com.freedcamp.pages.HomePage;
 import com.freedcamp.pages.LandingPage;
 import com.freedcamp.steps.E2eSteps;
 import com.freedcamp.testdata.CreatedProject;
@@ -28,7 +29,7 @@ public class EndToEndTests extends BaseUiTest {
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
         var targetProject = createdProject.createdProject().getProjectName();
         var timeRecord = TimeRecordFactory.validCompleted(targetProject);
-        open("/?f_lgt=1");
+        open("");
         new LandingPage()
                 .login(CONFIG.email(), CONFIG.password())
                 .verifyHomePageIsLoaded()
@@ -45,14 +46,12 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @SkipSessionInjection
     @Tag("E2e")
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
         open("/?f_lgt=1");
-        new LandingPage()
-                .login(CONFIG.email(), CONFIG.password())
+        new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openUserMenuPopover()
                 .openManageSystemPage()
