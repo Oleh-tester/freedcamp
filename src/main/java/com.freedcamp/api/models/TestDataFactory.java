@@ -125,12 +125,12 @@ public class TestDataFactory {
                 .build();
     }
 
-    public static AddUserToGroupDto addUserToGroupDto() {
+    public static AddUserToGroupDto addUserToGroupDto(String email) {
         return AddUserToGroupDto.builder()
                 .invitedGlobalTeams(List.of())
                 .users(List.of(
                         UsersItem.builder()
-                                .email("khomik.oleg1904+" + faker.number().digits(4) + "@gmail.com")
+                                .email(email)
                                 .name("User_" + faker.name().firstName() + "_" + faker.number().digits(4))
                                 .contextRoleId("-1")
                                 .build())).build();

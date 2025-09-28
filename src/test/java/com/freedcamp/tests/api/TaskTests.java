@@ -68,6 +68,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @Tag("Smoke")
     @RequiresTask
     @DisplayName("Verify task update and response.")
     void verifyTaskUpdate(CreatedTask targetTask) {

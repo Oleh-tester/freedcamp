@@ -32,4 +32,16 @@ public class UsersItem {
 
 	@JsonProperty("email")
 	private String email;
+
+    @JsonProperty("f_ghost")
+    private boolean f_ghost;
+
+    @JsonProperty("default_board")
+    private String default_board;
+
+    @JsonProperty("language")
+    private String language;
+
+    @JsonProperty("cal_week_start")
+    private String cal_week_start;
 }

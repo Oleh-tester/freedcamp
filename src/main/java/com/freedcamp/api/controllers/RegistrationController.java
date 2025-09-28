@@ -40,6 +40,26 @@ public class RegistrationController extends BaseController<RegistrationControlle
                 .response();
     }
 
+    @Step("Submit email on registration form (no SessionFilter) for {email}")
+    public Response registerEmail(String email) {
+        var aToken = randomToken13();
+        var aJsToken = randomToken13();
+        return given()
+                .spec(RequestSpecFactory.getWebSpec())
+                .contentType("application/x-www-form-urlencoded; charset=UTF-8")
+                .formParam("is_ajax", "true")
+                .formParam("time_on_page", "12")
+                .formParam("a_token", aToken)
+                .formParam("agree_terms", "1")
+                .formParam("email", email)
+                .formParam("a_js_token", aJsToken)
+                .when()
+                .post("/register")
+                .then()
+                .extract()
+                .response();
+    }
+
     @Step("Complete account settings for new user and capture session")
     public UserSession completeAccountSettings(String name, String password, String timezone, SessionFilter session) {
         Response resp = given()
@@ -56,11 +76,32 @@ public class RegistrationController extends BaseController<RegistrationControlle
                 .extract()
                 .response();
 
-        // Build cookie map for subsequent authenticated API calls (focus on ci_session + remember tokens if present)
         var restAssuredCookies = resp.detailedCookies();
         java.util.Map<String,String> cookieMap = new java.util.HashMap<>();
         restAssuredCookies.asList().forEach(c -> cookieMap.put(c.getName(), c.getValue()));
         return new UserSession(cookieMap);
+    }
+
+    @Step("Complete account settings for new user (passing existing cookies) and capture unified session")
+    public UserSession completeAccountSettings(String name, String password, String timezone, java.util.Map<String,String> existingCookies) {
+        Response resp = given()
+                .spec(RequestSpecFactory.getWebSpec())
+                .cookies(existingCookies)
+                .contentType("application/x-www-form-urlencoded; charset=UTF-8")
+                .formParam("name", name)
+                .formParam("password", password)
+                .formParam("f_subscribe_news", "0")
+                .formParam("timezone", timezone)
+                .when()
+                .post("/register/account_settings")
+                .then()
+                .extract()
+                .response();
+
+        var restAssuredCookies = resp.detailedCookies();
+        java.util.Map<String,String> merged = new java.util.HashMap<>(existingCookies == null ? java.util.Collections.emptyMap() : existingCookies);
+        restAssuredCookies.asList().forEach(c -> merged.put(c.getName(), c.getValue()));
+        return new UserSession(merged);
     }
 
     @Step("Get projects for newly registered user")

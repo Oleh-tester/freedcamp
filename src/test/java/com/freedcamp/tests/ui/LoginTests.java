@@ -1,7 +1,7 @@
 package com.freedcamp.tests.ui;
 
 import common.annotations.SkipSessionInjection;
-import com.freedcamp.pages.LoginPage;
+import com.freedcamp.pages.LandingPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ public class LoginTests extends BaseUiTest {
     @Tag("Smoke")
     @DisplayName("Check user successful login")
     void loginSuccessTest() {
-        open("");
-        new LoginPage().openLoginForm()
+        open("/?f_lgt=1");
+        new LandingPage().openLoginForm()
                 .isLoginFormVisible()
                 .enterUsername(CONFIG.email())
                 .enterPassword(CONFIG.password())

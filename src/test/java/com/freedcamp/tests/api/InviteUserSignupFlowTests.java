@@ -24,7 +24,6 @@ public class InviteUserSignupFlowTests {
 
     private final GroupController groupController = new GroupController();
     private final RegistrationController registrationController = new RegistrationController();
-    private final ProjectController projectController = new ProjectController();
 
     @Test
     @Tag("Invite")
@@ -33,21 +32,26 @@ public class InviteUserSignupFlowTests {
     void inviteSignupAndSeeProjects(CreatedProject createdProject, String createdGroup) {
         var projectName = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getProjectName();
         var groupId = createdProject.createdProjectResponseDto().getData().getGroups().get(0).getGroupId();
+        var targetEmail = "khomik.oleg1904+" + "1234" + "@gmail.com";
 
         // Step 1: Invite user to group (project association via group membership)
-        var inviteDto = TestDataFactory.addUserToGroupDto();
+        var inviteDto = TestDataFactory.addUserToGroupDto(targetEmail);
         var inviteResponse = groupController.addUserToProjectGroup(groupId, inviteDto);
         assertThat(inviteResponse.statusCode()).as("Invite user response code").isEqualTo(200);
 
-        // Step 2: User signs up via public registration endpoint capturing session
-        var sessionFilter = new io.restassured.filter.session.SessionFilter();
+        // Step 2: User signs up via public registration endpoint capturing raw response cookies
+        var sessionFilter = new io.restassured.filter.session.SessionFilter(); // still required by current controller signature
         var registerResponse = registrationController.registerEmail(inviteDto.getUsers().get(0).getEmail(), sessionFilter);
         assertThat(registerResponse.statusCode()).as("Register email response").isEqualTo(200);
 
-        // Step 3: Complete account settings
-        var userSession = registrationController.completeAccountSettings("Test User", "Test123.", "Europe/Athens", sessionFilter);
-        // Optionally assert session contains ci_session cookie
-        assertThat(userSession.cookies()).containsKey("ci_session");
+        // Extract initial cookies (e.g., ci_session) from registration response headers
+        var initialCookies = new java.util.HashMap<String,String>();
+        registerResponse.detailedCookies().asList().forEach(c -> initialCookies.put(c.getName(), c.getValue()));
+        assertThat(initialCookies).as("Registration response should include ci_session cookie").containsKey("ci_session");
+
+        // Step 3: Complete account settings using cookies obtained directly from register response
+        var userSession = registrationController.completeAccountSettings("Test User", "Test123.", "Europe/Athens", initialCookies);
+        assertThat(userSession.cookies()).as("Unified session cookies should contain ci_session").containsKey("ci_session");
 
         // Step 4: Fetch projects as the newly registered user
         var projectsResponse = registrationController.getProjects(userSession);

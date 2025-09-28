@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 public class TasksTests extends BaseUiTest {
 
     @Test
+    @Tag("Smoke")
     @Tag("UI")
     @Description("Verify creating a new task.")
     void createNewTask() {

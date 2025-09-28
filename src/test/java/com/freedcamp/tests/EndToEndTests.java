@@ -1,13 +1,16 @@
 package com.freedcamp.tests;
 
-import com.freedcamp.pages.LoginPage;
+import com.freedcamp.pages.LandingPage;
 import com.freedcamp.steps.E2eSteps;
+import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
 import com.freedcamp.testdata.TimeRecordFactory;
 import com.freedcamp.tests.ui.BaseUiTest;
+import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectFromTemplate;
 import common.annotations.SkipSessionInjection;
 import io.qameta.allure.Description;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +28,8 @@ public class EndToEndTests extends BaseUiTest {
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
         var targetProject = createdProject.createdProject().getProjectName();
         var timeRecord = TimeRecordFactory.validCompleted(targetProject);
-        open("");
-        new LoginPage()
+        open("/?f_lgt=1");
+        new LandingPage()
                 .login(CONFIG.email(), CONFIG.password())
                 .verifyHomePageIsLoaded()
                 .sidebar().openTimeRecordsPage()
@@ -47,8 +50,8 @@ public class EndToEndTests extends BaseUiTest {
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
-        open("");
-        new LoginPage()
+        open("/?f_lgt=1");
+        new LandingPage()
                 .login(CONFIG.email(), CONFIG.password())
                 .verifyHomePageIsLoaded()
                 .sidebar().openUserMenuPopover()
@@ -62,5 +65,31 @@ public class EndToEndTests extends BaseUiTest {
                 .submitProjectCreation();
 
         e2eSteps.waitUntilProjectFromTemplateIsCreated(projectTemplateName);
+    }
+
+    @Test
+    @Tag("E2e")
+    @SkipSessionInjection
+    @RequiresProject
+    @DisplayName("Invite user -> signup -> complete account settings -> verify project is visible")
+    void inviteSignupAndSeeProjects(CreatedProject createdProject) throws InterruptedException {
+        var projectName = createdProject.createdProjectResponseDto().getData().getProjects().get(0).getProjectName();
+        var groupId = createdProject.createdProjectResponseDto().getData().getGroups().get(0).getGroupId();
+        var targetEmail = faker.internet().safeEmailAddress();
+
+        e2eSteps.inviteUserToProject(groupId, targetEmail);
+        open("/?f_lgt=1");
+        new LandingPage()
+                .verifyLandingPageIsLoaded()
+                .enterEmailAddress(targetEmail)
+                .submitRegistration()
+                .submitInvite()
+                .verifySetupAccountPageIsLoaded()
+                .enterFullName("Test User")
+                .enterPassword("Test123.")
+                .uncheckSendMeProductUpdatesCheckbox()
+                .clickUpdateAccountButton()
+                .verifyHomePageIsLoaded()
+                .verifyProjectIsDisplayedInSideBar(projectName);
     }
 }

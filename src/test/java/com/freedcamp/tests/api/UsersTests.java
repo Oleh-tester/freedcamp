@@ -25,7 +25,9 @@ public class UsersTests extends BaseApiTest {
     @RequiresProject
     @DisplayName("Verify adding user to the project group.")
     void verifyAddingUserToTheProjectGroup(CreatedProject createdProject) {
-        var addUserToGroupDto = TestDataFactory.addUserToGroupDto();
+        var targetEmail = faker.internet().safeEmailAddress();
+        var addUserToGroupDto = TestDataFactory.addUserToGroupDto(targetEmail);
+
         var addUserResponse = groupController.addUserToProjectGroup(createdProject.createdProjectResponseDto().getData().getGroups().get(0).getGroupId(),
                 addUserToGroupDto);
         verifyUserAddedToGroupResponse(addUserResponse, addUserToGroupDto);
