@@ -7,7 +7,6 @@ import org.aeonbits.owner.ConfigFactory;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AuthHelper {
@@ -36,8 +35,7 @@ public class AuthHelper {
     }
 
     private static Map<String, String> login(String email, String password) {
-        var aToken = UUID.randomUUID().toString().replace("-", "").substring(0, 13);
-        var loginResponse = loginController.login(email, password, aToken);
+        var loginResponse = loginController.login(email, password);
         loginResponse.then().statusCode(200);
         return loginResponse.getCookies();
     }
