@@ -21,7 +21,7 @@ pipeline {
 
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
             sh """
-              ./gradlew test --tests "*AuthTests" \\
+              ./gradlew clean test " \\
                 --no-daemon --stacktrace \\
                 -PcredsFile="${CREDS_FILE}" \\
                 -Dallure.results.directory=build/allure-results
