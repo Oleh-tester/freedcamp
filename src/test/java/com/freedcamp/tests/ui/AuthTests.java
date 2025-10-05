@@ -28,7 +28,6 @@ public class AuthTests extends BaseUiTest {
 
     @Test
     @Tag("UI")
-    @Tag("Smoke")
     @DisplayName("Check user logout")
     void logoutSuccessfulTest() throws InterruptedException {
         open("/?f_lgt=1");

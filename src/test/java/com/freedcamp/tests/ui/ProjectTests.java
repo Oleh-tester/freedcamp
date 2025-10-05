@@ -10,7 +10,7 @@ public class ProjectTests extends BaseUiTest {
     @Test
     @Tag("UI")
     @Tag("Smoke")
-    @Description("Test for creating a new project")
+    @Description("Verify creating a new project")
     void createNewProject() {
         new HomePage()
                 .verifyHomePageIsLoaded()

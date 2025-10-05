@@ -26,6 +26,7 @@ public class TasksTests extends BaseUiTest {
 
     @Test
     @RequiresTask
+    @Tag("Smoke")
     @Tag("UI")
     @Description("Verify editing task.")
     void editTask(CreatedTask createdTask) {
