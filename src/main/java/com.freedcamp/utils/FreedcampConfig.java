@@ -4,7 +4,7 @@ import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
-        "system:properties",          // 1) те, що прийшло як -D...
+        "system:properties",
         "file:${credsFile}",
         "classpath:freedcamp.properties"
 })
