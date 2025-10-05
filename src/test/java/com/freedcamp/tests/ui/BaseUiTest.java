@@ -20,6 +20,8 @@ import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.Map;
+
 import static com.codeborne.selenide.Selenide.open;
 @Getter
 @ExtendWith({AllureJunit5.class, TestDataSetupExtension.class})
@@ -70,9 +72,11 @@ public abstract class BaseUiTest {
             return;
         }
 
-        var session = AuthHelper.getOwnerSessionCookie();
         open("/");
-        WebDriverRunner.getWebDriver().manage().addCookie(new Cookie("ci_session", session.get("ci_session")));
+        var mgr = WebDriverRunner.getWebDriver().manage();
+        mgr.deleteAllCookies();
+        Map<String, String> cookies = AuthHelper.getOwnerSessionCookie();
+        cookies.forEach((n, v) -> mgr.addCookie(new Cookie(n, v)));
         open("/dashboard/home");
     }
 }

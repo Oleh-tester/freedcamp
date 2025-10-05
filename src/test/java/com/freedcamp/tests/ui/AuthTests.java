@@ -17,7 +17,7 @@ public class AuthTests extends BaseUiTest {
     @Tag("Smoke")
     @DisplayName("Check user successful login")
     void loginSuccessTest() {
-        open("/?f_lgt=1");
+        open("");
         new LandingPage().openLoginForm()
                 .isLoginFormVisible()
                 .enterUsername(CONFIG.email())
@@ -27,11 +27,16 @@ public class AuthTests extends BaseUiTest {
     }
 
     @Test
+    @SkipSessionInjection
     @Tag("UI")
     @DisplayName("Check user logout")
     void logoutSuccessfulTest() throws InterruptedException {
-        open("/?f_lgt=1");
-        new HomePage()
+        open("");
+        new LandingPage().openLoginForm()
+                .isLoginFormVisible()
+                .enterUsername(CONFIG.email())
+                .enterPassword(CONFIG.password())
+                .submitLogin()
                 .verifyHomePageIsLoaded()
                 .sidebar().openUserMenuPopover()
                 .clickLogout()
