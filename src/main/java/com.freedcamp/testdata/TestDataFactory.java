@@ -1,4 +1,4 @@
-package com.freedcamp.api.models;
+package com.freedcamp.testdata;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.calendarEvents.CreateCalendarEventDto;

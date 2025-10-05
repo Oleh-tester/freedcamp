@@ -2,7 +2,12 @@ package com.freedcamp.utils;
 
 import org.aeonbits.owner.Config;
 
-@FreedcampConfig.Sources({"classpath:freedcamp.properties"})
+@Config.LoadPolicy(Config.LoadType.MERGE)
+@Config.Sources({
+        "system:properties",          // 1) те, що прийшло як -D...
+        "file:${credsFile}",
+        "classpath:freedcamp.properties"
+})
 public interface FreedcampConfig extends Config {
     @Key("baseUrl")
     String baseUrl();
@@ -28,4 +33,3 @@ public interface FreedcampConfig extends Config {
     @Key("projectTemplateId")
     String projectTemplateId();
 }
-

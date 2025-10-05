@@ -3,7 +3,7 @@ package com.freedcamp.tests.api;
 import com.freedcamp.utils.RequestSpecFactory;
 import com.freedcamp.api.controllers.TaskController;
 import com.freedcamp.testdata.CreatedProject;
-import com.freedcamp.api.models.TestDataFactory;
+import com.freedcamp.testdata.TestDataFactory;
 import com.freedcamp.testdata.CreatedTask;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresTask;

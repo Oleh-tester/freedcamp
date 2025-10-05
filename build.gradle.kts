@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("io.qameta.allure") version "2.11.2"
+    id("io.qameta.allure") version "2.12.0"
 }
 
 group = "org.freedcamp"
@@ -15,33 +15,42 @@ repositories {
 }
 
 dependencies {
-    implementation("com.codeborne:selenide:7.9.3")
-    implementation("io.rest-assured:rest-assured:5.4.0")
+    implementation("com.codeborne:selenide:7.10.0")
+    implementation("io.rest-assured:rest-assured:5.5.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
     implementation("io.qameta.allure:allure-junit5:2.29.0")
     implementation("io.qameta.allure:allure-rest-assured:2.29.0")
     implementation("org.projectlombok:lombok:1.18.28")
     implementation("org.aeonbits.owner:owner:1.0.12")
-    implementation ("org.jsoup:jsoup:1.17.2")
+    implementation("org.jsoup:jsoup:1.17.2")
     implementation("net.datafaker:datafaker:2.4.3")
     implementation("org.assertj:assertj-core:3.24.2")
     implementation("org.junit.jupiter:junit-jupiter:5.10.0")
     implementation("org.awaitility:awaitility:4.2.0")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
-    testImplementation("org.aeonbits.owner:owner:1.0.12")
     testImplementation("io.qameta.allure:allure-junit5:2.29.0")
-    testImplementation("io.qameta.allure:allure-selenide:2.24.0")
+    testImplementation("io.qameta.allure:allure-selenide:2.29.0")
     testRuntimeOnly("org.slf4j:slf4j-simple:2.0.17")
 }
 
-allure {
-    version.set("2.24.0")
-    useJUnit5 {
-        adapterVersion.set("2.24.0")
-    }
-}
+val credsFileProp = findProperty("credsFile") as String?
 
 tasks.test {
     useJUnitPlatform()
+    systemProperty("allure.results.directory", "$buildDir/allure-results")
+    credsFileProp?.let { systemProperty("credsFile", it) }
+}
+
+allure {
+    version = "2.29.0"
+    adapter {
+        frameworks {
+            junit5 {
+                enabled = true
+            }
+        }
+        autoconfigure = true
+        aspectjWeaver = true
+    }
 }

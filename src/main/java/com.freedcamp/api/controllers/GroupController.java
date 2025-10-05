@@ -33,17 +33,6 @@ public class GroupController extends BaseController {
                 .response();
     }
 
-    @Step("Get all groups")
-    public Response getAllGroups() {
-        return given()
-                .spec(RequestSpecFactory.getSpec())
-                .when()
-                .get("/groups")
-                .then()
-                .extract()
-                .response();
-    }
-
     @Step("Add user to the project group")
     public Response addUserToProjectGroup(String projectId, Object group) {
         return FormDataSpecHelper.applyJsonFormData(given()

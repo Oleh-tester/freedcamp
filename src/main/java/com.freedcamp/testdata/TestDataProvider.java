@@ -3,7 +3,6 @@ package com.freedcamp.testdata;
 import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.api.controllers.TaskController;
-import com.freedcamp.api.models.TestDataFactory;
 import com.freedcamp.api.models.groups.CreateGroupResponseDto;
 import com.freedcamp.api.models.projects.createProjectResponse.CreateProjectResponseDto;
 import com.freedcamp.api.models.projects.getAllProjects.GetAllProjectsDto;
@@ -11,7 +10,7 @@ import com.freedcamp.api.models.tasks.CreateTaskResponseDto;
 import com.freedcamp.utils.ProjectCreationWaiter;
 import io.restassured.response.Response;
 
-import static com.freedcamp.api.models.TestDataFactory.validTaskDto;
+import static com.freedcamp.testdata.TestDataFactory.validTaskDto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDataProvider {
@@ -88,7 +87,7 @@ public class TestDataProvider {
      * Creates a project in the specified group and returns the created project and original DTO for later use.
      */
     public CreatedProject createProjectInGroup(String groupId) {
-        var projectDto = com.freedcamp.api.models.TestDataFactory.validProjectDto();
+        var projectDto = TestDataFactory.validProjectDto();
         projectDto.setGroupId(groupId);
         var response = projectController.createProject(projectDto);
         assertThat(response.statusCode()).isEqualTo(200);
