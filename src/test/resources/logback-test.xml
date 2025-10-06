@@ -2,7 +2,7 @@
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level [%X{testName}][%X{env}][%X{user}][%X{corrId}] %logger{24} - %msg%n</pattern>
+            <pattern>%-5level [%X{testName}][%X{user}][%X{corrId}] %logger{24} - %msg%n</pattern>
         </encoder>
     </appender>
     <root level="INFO">
