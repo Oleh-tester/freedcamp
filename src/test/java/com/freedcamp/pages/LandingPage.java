@@ -34,7 +34,7 @@ public class LandingPage extends BasePage {
 
     @Step("Submit login form")
     public HomePage submitLogin() {
-        SelenideElement continueBtn = $x("//*[text()='Continue']");
+        SelenideElement continueBtn = $x("//form[@id='login_form']//*[contains(text(),'Continue')]");
         if (continueBtn.exists() && continueBtn.isDisplayed()) {
             continueBtn.click();
         } else {

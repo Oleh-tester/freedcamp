@@ -26,7 +26,7 @@ public class TestDataFactory {
 
     public static CreateProjectDto validProjectDto() {
         return CreateProjectDto.builder()
-                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
+                .projectName("Promo_" + faker.football().teams() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .todoViewType("default")
@@ -43,7 +43,7 @@ public class TestDataFactory {
 
     public static CreateProjectFromTemplateDto validProjectFromTemplateDto() {
         return CreateProjectFromTemplateDto.builder()
-                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
+                .projectName("Promo_" + faker.football().teams() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .appIds(List.of("2", "3", "4", "5", "19", "6"))
@@ -54,7 +54,7 @@ public class TestDataFactory {
 
     public static UpdateProjectDto updateProjectDto(String groupId) {
         return UpdateProjectDto.builder()
-                .projectName("Promo_" + faker.company().name() + "_" + faker.number().digits(4))
+                .projectName("Promo_" + faker.football().teams() + "_" + faker.number().digits(4))
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .groupId(groupId)
@@ -124,7 +124,7 @@ public class TestDataFactory {
 
     public static CreateGroupDto validCreateGroupDto() {
         return CreateGroupDto.builder()
-                .name("Group_" + faker.company().name() + "_" + faker.number().digits(4))
+                .name("Group_" + faker.football().teams() + "_" + faker.number().digits(4))
                 .description(faker.lorem().sentence(5))
                 .fSms(true)
                 .build();
