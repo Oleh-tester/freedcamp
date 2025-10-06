@@ -50,7 +50,7 @@ public class EndToEndTests extends BaseUiTest {
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
-        open("/?f_lgt=1");
+        open("");
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openUserMenuPopover()
@@ -77,7 +77,7 @@ public class EndToEndTests extends BaseUiTest {
         var targetEmail = faker.internet().safeEmailAddress();
 
         e2eSteps.inviteUserToProject(groupId, targetEmail);
-        open("/?f_lgt=1");
+        open("");
         new LandingPage()
                 .verifyLandingPageIsLoaded()
                 .enterEmailAddress(targetEmail)

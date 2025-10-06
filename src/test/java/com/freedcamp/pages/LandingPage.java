@@ -33,7 +33,11 @@ public class LandingPage extends BasePage {
 
     @Step("Submit login form")
     public HomePage submitLogin() {
-        $x("//input[@value='Login']").click();
+        if ($x("//*[text()='Continue']").exists()) {
+            $x("//*[text()='Continue']").click();
+        } else {
+            $x("//input[@value='Login']").click();
+        }
         return new HomePage();
     }
 
