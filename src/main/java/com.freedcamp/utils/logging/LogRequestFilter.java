@@ -16,12 +16,6 @@ public class LogRequestFilter implements OrderedFilter {
     private static final List<String> skipEndpoints = List.of("/authenticate");
     private static final int MAX_BODY_LENGTH = 25000;
 
-
-    static {
-        System.out.println("[SANITY] LogRequestFilter loaded. ILoggerFactory="
-                + LoggerFactory.getILoggerFactory().getClass().getName());
-    }
-
     @Override
     public Response filter(FilterableRequestSpecification requestSpec,
                            FilterableResponseSpecification responseSpec,

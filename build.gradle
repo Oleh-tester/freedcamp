@@ -35,13 +35,9 @@ dependencies {
     testImplementation 'io.qameta.allure:allure-junit5:2.29.0'
     testImplementation 'io.qameta.allure:allure-selenide:2.29.0'
 
-    // --- SLF4J binding для CI: Logback замість slf4j-simple ---
     testRuntimeOnly 'ch.qos.logback:logback-classic:1.5.8'
-    // (за потреби) api, якщо щось вимагає явного slf4j-api:
-    // testImplementation 'org.slf4j:slf4j-api:2.0.13'
 }
 
-// Прибрати конфліктні биндинги, якщо десь підтягуються транзитивно
 configurations {
     testRuntimeClasspath {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
@@ -53,24 +49,11 @@ def credsFileProp = findProperty('credsFile') as String
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
-
-    // показати stdout/stderr і події тестів у Jenkins
     testLogging {
         showStandardStreams = true
-        events 'started', 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         exceptionFormat 'full'
     }
-
-    // Явно підвантажити конфіг Logback (лежить у src/test/resources/logback.xml)
-    jvmArgs += ['-Dlogback.configurationFile=src/test/resources/logback.xml']
-
-    // Allure результати
     systemProperty 'allure.results.directory', "${buildDir}/allure-results"
-
-    // Додаткові пропи для логів/оточення на CI (якщо треба)
-    systemProperty 'env', System.getProperty('env', 'dev')
-    systemProperty 'log.user', System.getProperty('log.user', 'ci')
-
     if (credsFileProp) {
         systemProperty 'credsFile', credsFileProp
     }
