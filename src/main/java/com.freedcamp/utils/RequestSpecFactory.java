@@ -1,6 +1,7 @@
 package com.freedcamp.utils;
 
 import com.freedcamp.api.auth.AuthHelper;
+import com.freedcamp.utils.logging.LogRequestFilter;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;

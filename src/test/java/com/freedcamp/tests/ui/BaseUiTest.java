@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.freedcamp.testdata.TestDataSetupExtension;
+import com.freedcamp.utils.logging.LoggingExtension;
 import common.annotations.SkipSessionInjection;
 import com.freedcamp.api.auth.AuthHelper;
 import com.freedcamp.utils.FreedcampConfig;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.open;
 @Getter
-@ExtendWith({AllureJunit5.class, TestDataSetupExtension.class})
+@ExtendWith({AllureJunit5.class, TestDataSetupExtension.class, LoggingExtension.class})
 public abstract class BaseUiTest {
 
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);

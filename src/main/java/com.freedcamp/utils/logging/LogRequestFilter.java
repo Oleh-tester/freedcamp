@@ -1,4 +1,4 @@
-package com.freedcamp.utils;
+package com.freedcamp.utils.logging;
 
 import io.restassured.filter.FilterContext;
 import io.restassured.filter.OrderedFilter;
