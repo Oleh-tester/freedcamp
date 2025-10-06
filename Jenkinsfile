@@ -14,6 +14,16 @@ pipeline {
       checkout scm }
     }
 
+    stage('Deps insight (SLF4J)') {
+      steps {
+        sh '''
+          ./gradlew --no-daemon dependencyInsight \
+            --dependency slf4j \
+            --configuration testRuntimeClasspath
+        '''
+      }
+    }
+
     stage('Run tests') {
       steps {
         withCredentials([file(credentialsId: 'freedcamp_creds_properties', variable: 'CREDS_FILE')]) {
@@ -21,7 +31,7 @@ pipeline {
 
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
             sh """
-              ./gradlew clean test \\
+              ./gradlew --no-daemon clean test -i \\
                 --no-daemon --stacktrace \\
                 -PcredsFile="${CREDS_FILE}" \\
                 -Dallure.results.directory=build/allure-results

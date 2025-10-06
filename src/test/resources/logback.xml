@@ -1,24 +1,11 @@
 <configuration>
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
-
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!-- Time Level [test][env][user][corr][thread] Logger - message -->
-            <pattern>
-                %d{HH:mm:ss.SSS} %highlight(%-5level) [%magenta(%X{testName})][%green(%X{env})][%blue(%X{user})][%yellow(%X{corrId})] [%thread] %cyan(%logger{24}) - %msg%n
-            </pattern>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%X{testName}][%X{env}][%X{user}][%X{corrId}] %logger{24} - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <!-- ===== Noise reduction for common libs ===== -->
-    <logger name="org.openqa.selenium" level="WARN"/>
-    <logger name="io.restassured"   level="INFO"/>
-    <logger name="okhttp3"          level="INFO"/>
-    <logger name="com.zaxxer.hikari" level="WARN"/>
-
-    <!-- ===== Root logger ===== -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
-
 </configuration>
