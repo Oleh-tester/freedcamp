@@ -1,6 +1,7 @@
 package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -33,10 +34,11 @@ public class LandingPage extends BasePage {
 
     @Step("Submit login form")
     public HomePage submitLogin() {
-        if ($x("//*[text()='Continue']").exists()) {
-            $x("//*[text()='Continue']").click();
+        SelenideElement continueBtn = $x("//*[text()='Continue']");
+        if (continueBtn.exists() && continueBtn.isDisplayed()) {
+            continueBtn.click();
         } else {
-            $x("//input[@value='Login']").click();
+            $x("//input[@value='Login']").shouldBe(Condition.visible).click();
         }
         return new HomePage();
     }
@@ -71,7 +73,7 @@ public class LandingPage extends BasePage {
 
     @Step("Verify landing page is loaded")
     public LandingPage verifyLandingPageIsLoaded() throws InterruptedException {
-        waitUntilVisible($x("//*[.='Freedcamp']"));
+        waitUntilVisible($x("//*[contains(text(),'Start Now')]"));
         Thread.sleep(2500);
         return this;
     }
