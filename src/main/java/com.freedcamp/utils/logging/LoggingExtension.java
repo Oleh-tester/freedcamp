@@ -10,10 +10,9 @@ public class LoggingExtension implements BeforeEachCallback, AfterTestExecutionC
     @Override
     public void beforeEach(ExtensionContext ctx) {
         String testName = ctx.getDisplayName();
-        String env  = System.getProperty("env", "dev");
         String user = System.getProperty("log.user", "qa_auto");
 
-        LogManager.startTest(testName, env, user);
+        LogManager.startTest(testName, user);
         ctx.getStore(NS).put(START_KEY, Instant.now());
     }
 

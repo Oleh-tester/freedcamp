@@ -55,10 +55,8 @@ public class LogRequestFilter implements OrderedFilter {
                 logger.info("Content-Type: {}\n[RESPONSE TOO LONG: {} chars, skipped]",
                         response.getHeader("Content-Type"), responseBody.length());
             } else {
-                logger.info("[{}] Content-Type: {}\n{}",
-                        testName,
-                        response.getHeader("Content-Type"),
-                        response.asPrettyString());
+                logger.info("[{}] Content-Type: {}", testName, response.getHeader("Content-Type"));
+                logger.debug("[{}] Response:\n{}", testName, response.asPrettyString());
             }
         }
         return response;

@@ -51,7 +51,6 @@ tasks.withType(Test).configureEach {
     useJUnitPlatform()
     testLogging {
         showStandardStreams = true
-        exceptionFormat 'full'
     }
     systemProperty 'allure.results.directory', "${buildDir}/allure-results"
     if (credsFileProp) {
@@ -67,7 +66,7 @@ allure {
                 enabled = true
             }
         }
-        autoconfigure = true
+        autoconfigure = false
         aspectjWeaver = true
     }
 }
