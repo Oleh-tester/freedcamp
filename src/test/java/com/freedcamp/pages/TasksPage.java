@@ -63,7 +63,7 @@ public class TasksPage extends BasePage {
     }
 
     @Step("Open edit task form for task: {taskToEdit}")
-    public EditTaskDrawerForm openEditTaskDrawerForm(String taskToEdit) {
+    public EditTaskDrawerForm openEditTaskDrawerFormByTaskName(String taskToEdit) {
         $x("//*[text()='" + taskToEdit + "']").click();
         return new EditTaskDrawerForm();
     }

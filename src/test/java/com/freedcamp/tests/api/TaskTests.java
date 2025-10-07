@@ -24,7 +24,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("Smoke")
+    @Tag("smoke")
     @RequiresProject
     @DisplayName("Verify create task in a project.")
     void verifyCreateTaskInProject(CreatedProject createdProject) {
@@ -68,7 +68,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("Smoke")
+    @Tag("smoke")
     @RequiresTask
     @DisplayName("Verify task update and response.")
     void verifyTaskUpdate(CreatedTask targetTask) {

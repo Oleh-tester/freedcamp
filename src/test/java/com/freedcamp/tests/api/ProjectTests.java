@@ -28,7 +28,7 @@ public class ProjectTests extends BaseApiTest {
 
     @Test
     @RequiresProjectGroup
-    @Tag("Smoke")
+    @Tag("smoke")
     @DisplayName("Verify create project and return correct response")
     void shouldCreateProjectSuccessfully(String createdGroupId) {
         var projectDto = TestDataFactory.validProjectDtoWithGroup(createdGroupId);

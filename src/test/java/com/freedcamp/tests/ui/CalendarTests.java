@@ -10,7 +10,7 @@ public class CalendarTests extends BaseUiTest {
 
     @Test
     @RequiresProject
-    @Tag("UI")
+    @Tag("ui")
     @Description("Verify creating a new calendar event")
     void createNewCalendarEvent() {
         var meetName = "Meeting" + faker.number().digits(3);

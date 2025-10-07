@@ -14,7 +14,7 @@ public class AuthTests extends BaseUiTest {
     @Test
     @SkipSessionInjection
     @Tag("UI")
-    @Tag("Smoke")
+    @Tag("smoke")
     @DisplayName("Check user successful login")
     void loginSuccessTest() {
         open("");

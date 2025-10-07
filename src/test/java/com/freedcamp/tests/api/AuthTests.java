@@ -17,8 +17,8 @@ public class AuthTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("API")
-    @Tag("Smoke")
+    @Tag("api")
+    @Tag("smoke")
     public void testSuccessfulLogin() {
         var response = loginController.login(CONFIG.email(), CONFIG.password());
 
@@ -26,7 +26,7 @@ public class AuthTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("API")
+    @Tag("api")
     public void testLoginWithInvalidCredentials() {
         var response = loginController.login(CONFIG.email(), CONFIG.password() + "1");
 

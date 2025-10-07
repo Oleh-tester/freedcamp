@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 public class ProjectTests extends BaseUiTest {
 
     @Test
-    @Tag("UI")
-    @Tag("Smoke")
+    @Tag("ui")
+    @Tag("smoke")
     @Description("Verify creating a new project")
     void createNewProject() {
         var projectName = "New Project" + faker.number().digits(3);

@@ -23,7 +23,7 @@ public class EndToEndTests extends BaseUiTest {
     @Test
     @SkipSessionInjection
     @RequiresProjectFromTemplate
-    @Tag("E2e")
+    @Tag("e2e")
     @Description("Verify logging time on project.")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
         var targetProject = createdProject.createdProject().getProjectName();
@@ -46,7 +46,7 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @Tag("E2e")
+    @Tag("e2e")
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
@@ -67,7 +67,7 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @Tag("E2e")
+    @Tag("e2e")
     @SkipSessionInjection
     @RequiresProject
     @DisplayName("Invite user -> signup -> complete account settings -> verify project is visible")

@@ -20,7 +20,7 @@ public class UsersTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("Smoke")
+    @Tag("smoke")
     @RequiresProject
     @DisplayName("Verify adding user to the project group.")
     void verifyAddingUserToTheProjectGroup(String groupId) {

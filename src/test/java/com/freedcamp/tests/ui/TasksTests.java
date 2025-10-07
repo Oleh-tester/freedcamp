@@ -10,47 +10,51 @@ import org.junit.jupiter.api.Test;
 public class TasksTests extends BaseUiTest {
 
     @Test
-    @Tag("Smoke")
-    @Tag("UI")
+    @Tag("smoke")
+    @Tag("ui")
     @Description("Verify creating a new task.")
     void createNewTask() {
+        var taskName = "New Task" + faker.number().digits(3);
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTasksPage()
                 .verifyTasksPageIsLoaded()
                 .clickAddTaskButtonInTasksList()
-                .enterTaskName("New Task")
+                .enterTaskName(taskName)
                 .submitTaskCreation()
-                .verifyTaskIsDisplayedInTasksPage("New Task");
+                .verifyTaskIsDisplayedInTasksPage(taskName);
     }
 
     @Test
     @RequiresTask
-    @Tag("Smoke")
-    @Tag("UI")
+    @Tag("smoke")
+    @Tag("ui")
     @Description("Verify editing task.")
     void editTask(CreatedTask createdTask) {
+        var taskToEdit = createdTask.originalDto().getTitle();
+        var newStatus = "In Progress";
+        var newDescription = "Updated description for the task";
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTasksPage()
-                .openEditTaskDrawerForm(createdTask.originalDto().getTitle())
+                .openEditTaskDrawerFormByTaskName(taskToEdit)
                 .verifyEditTaskDrawerIsOpened()
-                .changeStatusTo("In Progress")
-                .verifyNewStatusIsDisplayed("In Progress")
-                .changeDescription("Updated description for the task")
-                .verifyDescriptionIsUpdated("Updated description for the task");
+                .changeStatusTo(newStatus)
+                .verifyNewStatusIsDisplayed(newStatus)
+                .changeDescription(newDescription)
+                .verifyDescriptionIsUpdated(newDescription);
     }
 
     @Test
     @RequiresTask
-    @Tag("UI")
+    @Tag("ui")
     @Description("Verify deleting task.")
     void deleteTask(CreatedTask createdTask) {
         var taskToDelete = createdTask.originalDto().getTitle();
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTasksPage()
-                .openEditTaskDrawerForm(taskToDelete)
+                .openEditTaskDrawerFormByTaskName(taskToDelete)
                 .openMoreActionsMenu()
                 .clickDeleteTaskButton()
                 .confirmDeleteTask()

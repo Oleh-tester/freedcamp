@@ -11,7 +11,7 @@ public class MilestonesTests extends BaseUiTest {
 
     @Test
     @RequiresProjectFromTemplate
-    @Tag("UI")
+    @Tag("ui")
     @Description("Verify creating a new milestone")
     void createNewMilestone(CreatedProjectFromTemplate project) {
         var targetProject = project.createdProject().getProjectName();
