@@ -1,9 +1,9 @@
 package com.freedcamp.tests.api;
 
 import com.freedcamp.api.controllers.EventController;
-import com.freedcamp.testdata.TestDataFactory;
+import com.freedcamp.testdata.utils.TestDataFactory;
 import com.freedcamp.testdata.CreatedProject;
-import com.freedcamp.testdata.TestDataSetupExtension;
+import com.freedcamp.testdata.utils.TestDataSetupExtension;
 import common.annotations.RequiresProject;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeAll;

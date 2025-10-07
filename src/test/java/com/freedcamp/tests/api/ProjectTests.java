@@ -2,8 +2,8 @@ package com.freedcamp.tests.api;
 
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.testdata.CreatedProject;
-import com.freedcamp.testdata.TestDataFactory;
-import com.freedcamp.testdata.TestDataSetupExtension;
+import com.freedcamp.testdata.utils.TestDataFactory;
+import com.freedcamp.testdata.utils.TestDataSetupExtension;
 import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectGroup;

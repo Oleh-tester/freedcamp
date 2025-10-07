@@ -2,7 +2,7 @@ package com.freedcamp.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.freedcamp.testdata.TimeRecordFactory;
+import com.freedcamp.testdata.TimeRecord;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -67,7 +67,7 @@ public class TimeRecordsPage extends BasePage {
     }
 
     @Step("Verify time record is displayed by description, duration and status")
-    public void verifyTimeRecordIsDisplayedByDescriptionDurationAndStatusLinkedToProject(TimeRecordFactory.TimeRecord timeRecord) {
+    public void verifyTimeRecordIsDisplayedByDescriptionDurationAndStatusLinkedToProject(TimeRecord timeRecord) {
         var xpath = String.format(
                 "//div[contains(@class, 'TimeRecord-Row') and .//*[contains(text(), '%s')] " +
                         "and .//*[contains(text(), '%s')] " +

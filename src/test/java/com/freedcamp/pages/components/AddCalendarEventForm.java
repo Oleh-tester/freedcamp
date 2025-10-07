@@ -26,7 +26,10 @@ public class AddCalendarEventForm extends BasePage {
 
     @Step("Select project in Calendar Event option in the popover.")
     public AddCalendarEventForm selectRandomProjectFromDropdown() {
-        $x("//*[contains(@class,'AgSelectOption-NotSelected')]")
+        if (!$x("//*[contains(@class,'AgSelectOption')]").isDisplayed()) {
+            $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").click();
+        }
+        $x("//*[contains(@class,'AgSelectOption')]")
                 .shouldBe(Condition.visible).click();
         return this;
     }

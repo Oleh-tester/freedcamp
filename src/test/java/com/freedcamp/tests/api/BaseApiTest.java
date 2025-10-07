@@ -1,6 +1,6 @@
 package com.freedcamp.tests.api;
 
-import com.freedcamp.testdata.TestDataSetupExtension;
+import com.freedcamp.testdata.utils.TestDataSetupExtension;
 import com.freedcamp.utils.FreedcampConfig;
 import com.freedcamp.utils.logging.LoggingExtension;
 import io.qameta.allure.junit5.AllureJunit5;

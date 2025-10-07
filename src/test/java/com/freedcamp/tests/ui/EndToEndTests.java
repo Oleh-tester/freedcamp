@@ -5,7 +5,7 @@ import com.freedcamp.pages.LandingPage;
 import com.freedcamp.steps.E2eSteps;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
-import com.freedcamp.testdata.TimeRecordFactory;
+import com.freedcamp.testdata.utils.TestDataFactory;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectFromTemplate;
 import common.annotations.SkipSessionInjection;
@@ -27,7 +27,7 @@ public class EndToEndTests extends BaseUiTest {
     @Description("Verify logging time on project.")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
         var targetProject = createdProject.createdProject().getProjectName();
-        var timeRecord = TimeRecordFactory.validCompleted(targetProject);
+        var timeRecord = TestDataFactory.validCompleted(targetProject);
         open("");
         new LandingPage()
                 .login(CONFIG.email(), CONFIG.password())

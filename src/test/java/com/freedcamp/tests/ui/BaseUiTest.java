@@ -4,7 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import com.freedcamp.testdata.TestDataSetupExtension;
+import com.freedcamp.testdata.utils.TestDataSetupExtension;
 import com.freedcamp.utils.logging.LoggingExtension;
 import common.annotations.SkipSessionInjection;
 import com.freedcamp.api.auth.AuthHelper;

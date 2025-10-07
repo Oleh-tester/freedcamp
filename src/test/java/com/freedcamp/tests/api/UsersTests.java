@@ -1,7 +1,7 @@
 package com.freedcamp.tests.api;
 
 import com.freedcamp.api.controllers.GroupController;
-import com.freedcamp.testdata.TestDataFactory;
+import com.freedcamp.testdata.utils.TestDataFactory;
 import common.annotations.RequiresProject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.freedcamp.testdata;
+package com.freedcamp.testdata.utils;
 
 import com.freedcamp.api.controllers.ListController;
 import com.freedcamp.api.models.calendarEvents.CreateCalendarEventDto;
@@ -10,6 +10,7 @@ import com.freedcamp.api.models.projects.UsersItem;
 import com.freedcamp.api.models.projects.updateProject.UpdateProjectDto;
 import com.freedcamp.api.models.tasks.TaskDto;
 import com.freedcamp.api.models.tasks.TaskConditions;
+import com.freedcamp.testdata.TimeRecord;
 import com.freedcamp.utils.FreedcampConfig;
 import net.datafaker.Faker;
 import org.aeonbits.owner.ConfigFactory;
@@ -139,5 +140,10 @@ public class TestDataFactory {
                                 .name("User_" + faker.name().firstName() + "_" + faker.number().digits(4))
                                 .contextRoleId("-1")
                                 .build())).build();
+    }
+
+    public static TimeRecord validCompleted(String projectName) {
+        return new TimeRecord("Worked on Task" + faker.number().digits(4), faker.number().numberBetween(0, 12),
+                "Completed", projectName);
     }
 }

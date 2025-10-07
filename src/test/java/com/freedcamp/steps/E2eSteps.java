@@ -2,7 +2,7 @@ package com.freedcamp.steps;
 
 import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
-import com.freedcamp.testdata.TestDataFactory;
+import com.freedcamp.testdata.utils.TestDataFactory;
 import com.freedcamp.utils.ProjectCreationWaiter;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,8 +1,11 @@
-package com.freedcamp.testdata;
+package com.freedcamp.testdata.utils;
 
 import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.api.controllers.TaskController;
+import com.freedcamp.testdata.CreatedProject;
+import com.freedcamp.testdata.CreatedProjectFromTemplate;
+import com.freedcamp.testdata.CreatedTask;
 import com.freedcamp.utils.ProjectCreationWaiter;
 import common.annotations.*;
 import org.junit.jupiter.api.extension.*;

@@ -1,4 +1,4 @@
-package com.freedcamp.testdata;
+package com.freedcamp.testdata.utils;
 
 import com.freedcamp.api.controllers.GroupController;
 import com.freedcamp.api.controllers.ProjectController;
@@ -7,10 +7,13 @@ import com.freedcamp.api.models.groups.CreateGroupResponseDto;
 import com.freedcamp.api.models.projects.createProjectResponse.CreateProjectResponseDto;
 import com.freedcamp.api.models.projects.getAllProjects.GetAllProjectsDto;
 import com.freedcamp.api.models.tasks.CreateTaskResponseDto;
+import com.freedcamp.testdata.CreatedProject;
+import com.freedcamp.testdata.CreatedProjectFromTemplate;
+import com.freedcamp.testdata.CreatedTask;
 import com.freedcamp.utils.ProjectCreationWaiter;
 import io.restassured.response.Response;
 
-import static com.freedcamp.testdata.TestDataFactory.validTaskDto;
+import static com.freedcamp.testdata.utils.TestDataFactory.validTaskDto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDataProvider {
