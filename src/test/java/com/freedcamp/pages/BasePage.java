@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.*;
 public abstract class BasePage {
 
     public final SelenideElement headerMenu = $x("//*[contains(@class, 'AppHeader')]");
-    public final String activeDropDownElementByTextXpath = "//div[contains(@class,'SelectOption')" +
+    public final String DROPDOWN_OPTION_BY_TEXT_XPATH = "//div[contains(@class,'SelectOption')" +
             " and contains(text(),'%s')]";
     protected SideBarComponent sidebar = new SideBarComponent();
 

@@ -21,10 +21,10 @@ public class MilestonesPage extends BasePage {
 
     @Step("Select project {string}.")
     public MilestonesPage selectProject(String projectName) {
-        if (!$x(String.format(activeDropDownElementByTextXpath, projectName)).exists()) {
+        if (!$x(String.format(DROPDOWN_OPTION_BY_TEXT_XPATH, projectName)).exists()) {
             $x(".//div[label[contains(text(), 'Project')]]//div[contains(@class, 'FormField')]").click();
         }
-        $x(String.format(activeDropDownElementByTextXpath, projectName)).click();
+        $x(String.format(DROPDOWN_OPTION_BY_TEXT_XPATH, projectName)).click();
         return this;
     }
 

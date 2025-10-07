@@ -1,4 +1,4 @@
-package com.freedcamp.tests.ui;
+package com.freedcamp.tests;
 
 import com.freedcamp.pages.HomePage;
 import com.freedcamp.pages.LandingPage;
@@ -6,6 +6,7 @@ import com.freedcamp.steps.E2eSteps;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
 import com.freedcamp.testdata.utils.TestDataFactory;
+import com.freedcamp.tests.ui.BaseUiTest;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectFromTemplate;
 import common.annotations.SkipSessionInjection;

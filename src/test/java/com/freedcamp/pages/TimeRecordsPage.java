@@ -31,7 +31,7 @@ public class TimeRecordsPage extends BasePage {
 
     @Step("Select project from dropdown: {s}")
     public TimeRecordsPage selectProjectFromDropdown(String s) {
-        $x(String.format(activeDropDownElementByTextXpath, s)).click();
+        $x(String.format(DROPDOWN_OPTION_BY_TEXT_XPATH, s)).click();
         return this;
     }
 
@@ -51,7 +51,7 @@ public class TimeRecordsPage extends BasePage {
     public TimeRecordsPage changeStatusTo(String status) {
         SelenideElement statusDropdown = $x("//div[label[contains(text(), 'Status')]]//*[contains(@class,'DropdownArrow')]");
         statusDropdown.click();
-        $x(String.format(activeDropDownElementByTextXpath, status)).click();
+        $x(String.format(DROPDOWN_OPTION_BY_TEXT_XPATH, status)).click();
         return this;
     }
 
