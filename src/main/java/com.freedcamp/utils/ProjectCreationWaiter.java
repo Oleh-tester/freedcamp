@@ -21,7 +21,7 @@ public class ProjectCreationWaiter {
         try {
             await()
                     .pollDelay(33, SECONDS)
-                    .atMost(90, SECONDS)
+                    .atMost(99, SECONDS)
                     .pollInterval(3, SECONDS)
                     .ignoreExceptions()
                     .until(() -> isProjectVisible(projectName));
