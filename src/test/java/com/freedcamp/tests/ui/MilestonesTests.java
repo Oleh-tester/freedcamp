@@ -20,6 +20,7 @@ public class MilestonesTests extends BaseUiTest {
                 .verifyHomePageIsLoaded()
                 .sidebar().openMilestonesPage()
                 .clickAddMilestoneButton()
+                .openProjectDropdown()
                 .selectProject(targetProject)
                 .enterMilestoneTitle(milestoneName)
                 .clickQuickAddButton()

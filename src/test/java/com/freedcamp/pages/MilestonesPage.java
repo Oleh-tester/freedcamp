@@ -13,6 +13,12 @@ public class MilestonesPage extends BasePage {
         return this;
     }
 
+    @Step("Open Project dropdown")
+    public MilestonesPage openProjectDropdown() {
+        $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").click();
+        return this;
+    }
+
     @Step("Select project {string}.")
     public MilestonesPage selectProject(String projectName) {
         if (!$x(String.format(activeDropDownElementByTextXpath, projectName)).exists()) {

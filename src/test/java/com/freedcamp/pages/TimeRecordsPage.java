@@ -22,6 +22,12 @@ public class TimeRecordsPage extends BasePage {
         return this;
     }
 
+    @Step("Open Project dropdown")
+    public TimeRecordsPage openProjectDropdown() {
+        $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").click();
+        return this;
+    }
+
     @Step("Select project from dropdown: {s}")
     public TimeRecordsPage selectProjectFromDropdown(String s) {
         $x(String.format(activeDropDownElementByTextXpath, s)).click();

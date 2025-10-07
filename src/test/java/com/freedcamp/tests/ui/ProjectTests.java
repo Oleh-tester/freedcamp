@@ -22,7 +22,7 @@ public class ProjectTests extends BaseUiTest {
                 .clickCreateProjectButton()
                 .sidebar().openProjectsPage()
                 .verifyProjectPageIsLoaded()
-                .verifyProjectIsDisplayedInProjectsPage("New Project")
+                .verifyProjectIsDisplayedInProjectsPage(projectName)
                 .deleteProjectFromProjectsPage(projectName);
     }
 }

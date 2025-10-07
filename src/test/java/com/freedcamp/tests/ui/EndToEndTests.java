@@ -35,6 +35,7 @@ public class EndToEndTests extends BaseUiTest {
                 .sidebar().openTimeRecordsPage()
                 .verifyTimeRecordsPageIsLoaded()
                 .openAddTimeRecordSidebar()
+                .openProjectDropdown()
                 .selectProjectFromDropdown(targetProject)
                 .openAddTimeRecordFullForm()
                 .enterWorkedHours(String.valueOf(timeRecord.duration()))
