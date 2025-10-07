@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.codeborne:selenide:7.10.0'
+    implementation 'com.codeborne:selenide:7.11.1'
     implementation 'io.rest-assured:rest-assured:5.5.5'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
     implementation 'io.qameta.allure:allure-junit5:2.29.0'
