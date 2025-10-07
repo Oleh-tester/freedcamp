@@ -14,7 +14,16 @@ public class ProjectsPage extends BasePage {
     }
 
     @Step("Verify project {projectName} is displayed in Projects page")
-    public void verifyProjectIsDisplayedInProjectsPage(String projectName) {
+    public ProjectsPage verifyProjectIsDisplayedInProjectsPage(String projectName) {
         $x("//*[contains(@class, 'ProjectsSection')]//*[text()='" + projectName + "']").shouldBe(Condition.visible);
+        return this;
+    }
+
+    @Step("Delete project {projectName} from Projects page")
+    public void deleteProjectFromProjectsPage(String projectName) {
+        $x("//div[contains(@class,'ListProject')][contains(.,'" + projectName + "')]//*[contains(@name,'AgMenuDots')]")
+                .shouldBe(Condition.visible).click();
+        $x("//*[text()='Delete project']").shouldBe(Condition.visible).click();
+        $x("//*[contains(@class,'Delete')]/*[text()='Yes']").shouldBe(Condition.visible).click();
     }
 }

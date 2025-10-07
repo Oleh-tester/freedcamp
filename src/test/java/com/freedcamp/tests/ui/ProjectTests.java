@@ -12,15 +12,17 @@ public class ProjectTests extends BaseUiTest {
     @Tag("Smoke")
     @Description("Verify creating a new project")
     void createNewProject() {
+        var projectName = "New Project" + faker.number().digits(3);
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .clickAddProjectButton()
                 .selectProjectFromScratch()
-                .enterProjectName("New Project")
+                .enterProjectName(projectName)
                 .enterProjectDescription("This is a test project")
                 .clickCreateProjectButton()
                 .sidebar().openProjectsPage()
                 .verifyProjectPageIsLoaded()
-                .verifyProjectIsDisplayedInProjectsPage("New Project");
+                .verifyProjectIsDisplayedInProjectsPage("New Project")
+                .deleteProjectFromProjectsPage(projectName);
     }
 }
