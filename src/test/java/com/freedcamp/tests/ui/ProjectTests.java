@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 public class ProjectTests extends BaseUiTest {
 
     @Test
-    @Tag("ui")
     @Tag("smoke")
     @Description("Verify creating a new project")
     void createNewProject() {

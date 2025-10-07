@@ -12,7 +12,6 @@ public class TimeRecordsTests extends BaseUiTest {
     @Test
     @RequiresProjectFromTemplate
     @Tag("smoke")
-    @Tag("ui")
     @Description("Test for creating a new time record on a project")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate targetProject) {
         var targetProjectName = targetProject.createdProject().getProjectName();

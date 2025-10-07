@@ -13,7 +13,6 @@ public class AuthTests extends BaseUiTest {
 
     @Test
     @SkipSessionInjection
-    @Tag("UI")
     @Tag("smoke")
     @DisplayName("Check user successful login")
     void loginSuccessTest() {
@@ -28,7 +27,6 @@ public class AuthTests extends BaseUiTest {
 
     @Test
     @SkipSessionInjection
-    @Tag("UI")
     @DisplayName("Check user logout")
     void logoutSuccessfulTest() throws InterruptedException {
         open("");
