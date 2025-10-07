@@ -32,7 +32,7 @@ public class TestDataFactory {
                 .projectColor(faker.color().hex())
                 .todoViewType("default")
                 .usageType("personal")
-                .groupId(CONFIG.testGroupId())
+                .groupId(faker.number().digits(6))
                 .build();
     }
 
@@ -48,7 +48,7 @@ public class TestDataFactory {
                 .projectDescription(faker.lorem().sentence(5))
                 .projectColor(faker.color().hex())
                 .appIds(List.of("2", "3", "4", "5", "19", "6"))
-                .groupId(CONFIG.testGroupId())
+                .groupId(faker.number().digits(6))
                 .srcTemplateId(CONFIG.projectTemplateId())
                 .build();
     }

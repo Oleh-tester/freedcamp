@@ -3,21 +3,17 @@ package com.freedcamp.tests.api;
 import com.freedcamp.api.controllers.ProjectController;
 import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.utils.TestDataFactory;
-import com.freedcamp.testdata.utils.TestDataSetupExtension;
 import common.annotations.DeletesOwnData;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresProjectGroup;
-import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.freedcamp.assertions.ProjectAssertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith({AllureJunit5.class, TestDataSetupExtension.class})
 public class ProjectTests extends BaseApiTest {
     private static ProjectController projectController;
 

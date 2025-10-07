@@ -27,9 +27,6 @@ public interface FreedcampConfig extends Config {
     @Key("testUserId")
     String testUserId();
 
-    @Key("testGroupId")
-    String testGroupId();
-
     @Key("projectTemplateId")
     String projectTemplateId();
 }

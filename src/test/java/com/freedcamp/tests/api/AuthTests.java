@@ -2,6 +2,7 @@ package com.freedcamp.tests.api;
 
 import com.freedcamp.api.controllers.LoginController;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +18,8 @@ public class AuthTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("api")
     @Tag("smoke")
+    @DisplayName("Verify successful login with valid credentials")
     public void testSuccessfulLogin() {
         var response = loginController.login(CONFIG.email(), CONFIG.password());
 
@@ -26,7 +27,7 @@ public class AuthTests extends BaseApiTest {
     }
 
     @Test
-    @Tag("api")
+    @DisplayName("Verify login with invalid credentials")
     public void testLoginWithInvalidCredentials() {
         var response = loginController.login(CONFIG.email(), CONFIG.password() + "1");
 

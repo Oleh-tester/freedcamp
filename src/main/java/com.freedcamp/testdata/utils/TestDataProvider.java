@@ -32,20 +32,6 @@ public class TestDataProvider {
     }
 
     /**
-     * Creates a project and returns the created project and original DTO for later use.
-     */
-    public CreatedProject createProject() {
-        var projectDto = TestDataFactory.validProjectDto();
-
-        Response response = projectController.createProject(projectDto);
-        assertThat(response.statusCode()).isEqualTo(200);
-
-        return new CreatedProject(
-                response.as(CreateProjectResponseDto.class),
-                projectDto);
-    }
-
-    /**
      * Creates a project and a task inside it. Returns task ID and original DTO for later use.
      */
     public CreatedTask createTask(String projectId) {

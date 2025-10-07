@@ -2,6 +2,7 @@ package com.freedcamp.tests.ui;
 
 import com.freedcamp.pages.HomePage;
 import com.freedcamp.testdata.CreatedTask;
+import common.annotations.RequiresProject;
 import common.annotations.RequiresTask;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.Tag;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 public class TasksTests extends BaseUiTest {
 
     @Test
+    @RequiresProject
     @Tag("smoke")
     @Tag("ui")
     @Description("Verify creating a new task.")

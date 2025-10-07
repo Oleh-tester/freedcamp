@@ -24,7 +24,8 @@ public class TimeRecordsPage extends BasePage {
 
     @Step("Open Project dropdown")
     public TimeRecordsPage openProjectDropdown() {
-        $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").click();
+        $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").
+        shouldBe(Condition.interactable).click();
         return this;
     }
 

@@ -21,7 +21,7 @@ pipeline {
 
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
             sh """
-               ./gradlew clean test --tests "com.freedcamp.tests.ui*" \\
+               ./gradlew clean test \\
                 --no-daemon --stacktrace \\
                 -PcredsFile="${CREDS_FILE}" \\
                 -Dallure.results.directory=build/allure-results
