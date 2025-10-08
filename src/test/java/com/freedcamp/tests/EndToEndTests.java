@@ -22,7 +22,7 @@ public class EndToEndTests extends BaseUiTest {
     @Test
     @SkipSessionInjection
     @RequiresProject
-    @Description("Verify logging time on project.")
+    @Description("Verify logging time on project full form.")
     void verifyLoggingTimeOnProject(CreatedProject createdProject) {
         var targetProject = createdProject.originalDto().getProjectName();
         var timeRecord = TestDataFactory.validCompleted(targetProject);

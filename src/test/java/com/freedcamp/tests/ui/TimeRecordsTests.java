@@ -22,6 +22,7 @@ public class TimeRecordsTests extends BaseUiTest {
                 .sidebar().openTimeRecordsPage()
                 .verifyTimeRecordsPageIsLoaded()
                 .openAddTimeRecordSidebar()
+                .openProjectDropdown()
                 .selectProjectFromDropdown(targetProjectName)
                 .enterRecordTitleQuickAdd(timeRecord)
                 .clickQuickAddButton()
