@@ -54,10 +54,12 @@ public class LandingPage extends BasePage {
 
     @Step("Enter email address: {email}")
     public LandingPage enterEmailAddress(String email) {
-        if (!$x("//*[@id='register']//input[@class='input email']").isDisplayed()){
-           $x("//*[text()='Start Now']").click();
+        if (!$x("//*[@id='register']//input[@class='input email']").isDisplayed()) {
+            $x("//*[text()='Start Now']").click();
+            $x("//*[@id='registration']//input[@id='email']").shouldBe(Condition.visible).setValue(email);
+        } else {
+            $x("//*[@id='register']//input[@class='input email']").setValue(email);
         }
-        $x("//*[@id='register']//input[@class='input email']").setValue(email);
         return this;
     }
 
