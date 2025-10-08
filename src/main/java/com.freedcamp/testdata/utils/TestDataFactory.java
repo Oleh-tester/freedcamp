@@ -105,7 +105,7 @@ public class TestDataFactory {
         var validTaskDto = updateTaskDto();
         validTaskDto.setProjectId("invalid_project_id");
         validTaskDto.setAssignedToId("invalid_user_id");
-        validTaskDto.setStatus(999);
+        validTaskDto.setStatus(0);
         validTaskDto.setTitle("");
         return validTaskDto;
     }
