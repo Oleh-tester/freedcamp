@@ -19,6 +19,12 @@ public class RolesByApps {
 	@JsonProperty("3")
 	private List<String> jsonMember3;
 
+	@JsonProperty("4")
+	private List<String> jsonMember4;
+
+	@JsonProperty("5")
+	private List<String> jsonMember5;
+
 	@JsonProperty("6")
 	private List<String> jsonMember6;
 
