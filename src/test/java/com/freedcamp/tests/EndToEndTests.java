@@ -43,7 +43,7 @@ public class EndToEndTests extends BaseUiTest {
                 .verifyTimeRecordIsDisplayedByDescriptionDurationAndStatusLinkedToProject(timeRecord);
     }
 
-/*    @Test
+    @Test
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
@@ -61,7 +61,7 @@ public class EndToEndTests extends BaseUiTest {
                 .submitProjectCreation();
 
         e2eSteps.waitUntilProjectFromTemplateIsCreated(projectTemplateName);
-    }*/
+    }
 
     @Test
     @SkipSessionInjection
