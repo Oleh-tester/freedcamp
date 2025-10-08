@@ -49,7 +49,7 @@ public class TasksPage extends BasePage {
 
     @Step("Click Quick Add button in Tasks section")
     public TasksPage clickQuickAddTaskButton() {
-        $x("//button[.='Quick Add']").pressEnter();
+        $x("//button[.='Quick Add']").click();
         return this;
     }
 
@@ -77,5 +77,13 @@ public class TasksPage extends BasePage {
     public TasksPage selectProjectFromDropdown(String targetProject) {
         $x("//*[contains(@class,'SelectOption')]/*[text()='" + targetProject + "']").click();
         return this;
+    }
+
+    @Step("Open Project dropdown")
+    public TasksPage openProjectDropdown() {
+        if (!$x("//div[contains(@class,'SelectOption')]").isDisplayed()) {
+            $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").
+                    shouldBe(Condition.interactable).click();
+        }        return this;
     }
 }

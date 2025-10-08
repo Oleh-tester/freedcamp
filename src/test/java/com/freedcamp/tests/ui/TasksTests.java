@@ -1,6 +1,7 @@
 package com.freedcamp.tests.ui;
 
 import com.freedcamp.pages.HomePage;
+import com.freedcamp.testdata.CreatedProject;
 import com.freedcamp.testdata.CreatedTask;
 import common.annotations.RequiresProject;
 import common.annotations.RequiresTask;
@@ -15,15 +16,18 @@ public class TasksTests extends BaseUiTest {
     @RequiresProject
     @Tag("Smoke")
     @Description("Verify creating a new task.")
-    void createNewTask() {
+    void createNewTask(CreatedProject project) {
+        var projectName = project.originalDto().getProjectName();
         var taskName = "New Task" + faker.number().digits(3);
         new HomePage()
                 .verifyHomePageIsLoaded()
                 .sidebar().openTasksPage()
                 .verifyTasksPageIsLoaded()
-                .clickAddTaskButtonInTasksList()
+                .clickAddTaskButtonInHeader()
+                .openProjectDropdown()
+                .selectProjectFromDropdown(projectName)
                 .enterTaskName(taskName)
-                .submitTaskCreation()
+                .clickQuickAddTaskButton()
                 .verifyTaskIsDisplayedInTasksPage(taskName);
     }
 
