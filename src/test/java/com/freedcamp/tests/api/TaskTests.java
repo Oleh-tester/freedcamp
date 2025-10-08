@@ -50,6 +50,7 @@ public class TaskTests extends BaseApiTest {
     }
 
     @Test
+    @RequiresProject
     @DisplayName("Verify return 400 when project iD is invalid.")
     void verify400WhenProjectIdIsInvalid() {
         var taskDtoWithInvalidProjectId = TestDataFactory.validTaskDto("invalid_project_id");
