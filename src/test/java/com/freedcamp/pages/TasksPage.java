@@ -19,9 +19,8 @@ public class TasksPage extends BasePage {
     }
 
     @Step("Click Add Task button in Tasks list.")
-    public TasksPage clickAddTaskButtonInTasksList() {
+    public void clickAddTaskButtonInTasksList() {
         tasksSection.$x(".//button").click();
-        return this;
     }
 
     @Step("Click Add Task button in header")
@@ -42,9 +41,8 @@ public class TasksPage extends BasePage {
     }
 
     @Step("Submit task creation")
-    public TasksPage submitTaskCreation() {
+    public void submitTaskCreation() {
         tasksSection.$x(".//input[not(@type='hidden')]").pressEnter();
-        return this;
     }
 
     @Step("Click Quick Add button in Tasks section")
