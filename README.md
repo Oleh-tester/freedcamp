@@ -14,7 +14,8 @@ Key design goals:
 - Clean separation of concerns (config, auth, data setup, page objects, assertions, steps)
 - Deterministic, tagged execution for selective pipelines (smoke, api, ui, e2e)
 - Rich reporting & diagnosability (Allure + structured logging + request/response capture)
-- Extensible utilities (HMAC signing, dynamic request specs, data factories)
+- Extensible utilities ( dynamic request specs, data factories)
+- Parallel execution support (Gradle forks + JUnit threads)
 
 ---
 ## 🗂 Project Structure
@@ -77,7 +78,7 @@ testUserId=...
 projectTemplateId=...
 ```
 
-Sample `freedcamp.properties` (NEVER commit secrets):
+Sample `freedcamp.properties`:
 ```
 baseUrl=https://freedcamp.com
 ui.browser=chrome
@@ -110,7 +111,7 @@ If a test must exercise the login UI, annotate it with a custom opt‑out annota
 `RequestSpecFactory` centralizes Rest-Assured specs:
 - Authenticated spec with session cookies
 - Unauthenticated spec for negative/login tests
-- Optional cookie injection method `getSpecWithCookies(Map<String,String>)`
+- Optional cookie injection: `getSpecWithCookies(Map<String,String>)`
 
 Logging & Allure integration applied via filters (`LogRequestFilter`, `AllureRestAssured`).
 
@@ -127,44 +128,72 @@ Session cookie injection drastically shortens test runtime; ensure any stateful 
 ---
 ## 🏷 Tagging Strategy
 JUnit `@Tag` values in the suite:
-- `smoke` – High-value quick subset
-- `e2e` – Cross-layer extended flows
+- `api`   – Pure backend interaction
+- `ui`    – UI-specific tests
+- `smoke` – High-value quick subset across layers
+- `e2e`   – Cross-layer extended flows
 
 Running by tag (Preferred JUnit 5 syntax):
 ```
-./gradlew test -Djunit.jupiter.tags=smoke
+./gradlew test -DincludeTags=Smoke
+ ./gradlew test -DincludeTags=API,UI
 ```
-(Previous `-Dtags=` placeholder in earlier README is replaced by official JUnit property.)
-
 Exclude tags:
 ```
-./gradlew test -Djunit.jupiter.exclude.tags=e2e
+./gradlew test -Djunit.jupiter.exclude.tags=E2E
 ```
 
 Run a single test class:
 ```
 ./gradlew test --tests "com.freedcamp.tests.api.AuthTests"
+./gradlew test --tests "com.freedcamp.tests.ui.TasksTests"
 ```
-
 Run a single method:
 ```
 ./gradlew test --tests "com.freedcamp.tests.ui.TasksTests.verifyLoggingTimeOnTask"
 ```
+### Gradle Parallel Controls (build.gradle)
+Two Gradle properties control parallelism at two layers:
+- `-Pforks` → maps to `maxParallelForks` (number of separate JVM processes). Default: `1`.
+- `-PjunitThreads` → sets JUnit thread pool size inside each fork via system property `junit.jupiter.execution.parallel.config.fixed.parallelism`. Default: `2`.
+
+Execution model: Effective concurrency ≈ `forks * junitThreads` (upper bound). Real throughput depends on blocking I/O (browser / network) and Selenide/WebDriver limits.
+
+Examples:
+```
+# 2 JVM forks, each running up to 4 concurrent test threads (≈8 logical test threads)
+./gradlew test -Pforks=2 -PjunitThreads=4 -DincludeTags=ui
+
+# API only high parallelism (no browsers) – aggressive settings
+./gradlew test -Pforks=3 -PjunitThreads=6 -DincludeTags=api
+
+# Constrain to single JVM but more threads inside it
+./gradlew test -Pforks=1 -PjunitThreads=5 -DincludeTags=smoke
+```
+Tuning advice:
+- Increase `forks` when tests are CPU / JVM bound or you need memory isolation.
+- Increase `junitThreads` for mostly I/O-bound tests (API calls, waiting on UI).
+- Start modest (e.g., `-Pforks=2 -PjunitThreads=3`) and observe stability.
+- Watch out for server rate limiting & shared test data collisions.
 ---
 ## ✅ Running the Suite
 Full clean run:
 ```
 ./gradlew clean test
 ```
-API only:
+API only (tag):
 ```
-./gradlew test --tests "com.freedcamp.tests.api"
+./gradlew test -DincludeTags=api
 ```
-UI:
+UI only (tag):
 ```
-./gradlew test --tests "com.freedcamp.tests.ui"
+./gradlew test -DincludeTags=ui
 ```
-Headless mode (override at runtime):
+UI smoke subset:
+```
+./gradlew test -DincludeTags=ui,smoke
+```
+Headless mode override:
 ```
 ./gradlew test -Dui.headless=true
 ```
@@ -200,12 +229,6 @@ Use `DataFaker` (`faker`) for randomized but bounded inputs; avoid randomness in
 - `logback-test.xml` provides enriched pattern with MDC keys: testName / user / corrId
 - `LoggingExtension` populates MDC per test lifecycle
 - `LogRequestFilter` logs HTTP method + URI + status (and can be extended for bodies / correlation IDs)
-
-Sample log line:
-```
-INFO  [AuthTests#login_valid][owner@freedcamp][1b2c3d] c.f.api.controllers.LoginController - POST /iapi/auth/login 200
-```
-
 ---
 ## 🛠 Jenkins Pipeline
 `Jenkinsfile` stages:
@@ -217,9 +240,8 @@ INFO  [AuthTests#login_valid][owner@freedcamp][1b2c3d] c.f.api.controllers.Login
 Adapting for tags in Jenkins:
 ```
 env.TAGS = 'smoke'
-sh "./gradlew clean test -Djunit.jupiter.tags=${TAGS} -PcredsFile=\"${CREDS_FILE}\""
+sh "./gradlew clean test -DincludeTags=${TAGS} -PcredsFile=\"${CREDS_FILE}\""
 ```
-
 ---
 ## 🧩 Adding New Tests (Checklist)
 1. Decide layer (API vs UI vs e2e) and appropriate package
@@ -236,32 +258,31 @@ sh "./gradlew clean test -Djunit.jupiter.tags=${TAGS} -PcredsFile=\"${CREDS_FILE
 | 401 / unauthorized API | Missing/incorrect creds | Verify `freedcamp.properties` or `-PcredsFile` path |
 | UI test opens login page instead of dashboard | Session injection failed | Check cookie names; ensure auth endpoint still stable |
 | `No tests found for given includes` | Wrong `--tests` pattern | Use fully-qualified or wildcard like `*TasksTests*` |
-| Allure report empty | No results produced | Ensure `allure.results.directory` system property set by Gradle (already configured) |
-| Stale element / timing | SPA hydration delays | Add or extend wait helpers (`awaitDomAndHydration`, custom network idle wait) |
+| Allure report empty | No results produced | Ensure `allure.results.directory` system property set (already in Gradle config) |
+| Parallel flakiness | Shared mutable state | Remove statics / use ThreadLocal / generate isolated data |
+| Stale element / timing | SPA hydration delays | Extend waits (`awaitDomAndHydration`, network idle helper) |
 
----
-## 🧪 Quality & Future Enhancements
-Planned / Suggested:
-- Add contract tests with schema validation
-- Introduce retry logic for known transient UI actions
-- Integrate Visual regression (baseline screenshots) for critical views
-- Dockerized Selenium grid for scaled parallel UI runs
-- Report analytics trend (historical stability badges)
 ---
 ## 🧠 Quick Reference (Cheat Sheet)
 ```
-# Smoke subset
-./gradlew test -Djunit.jupiter.tags=smoke
+# Smoke subset (custom property)
+./gradlew test -DincludeTags=Smoke
+
+# API only with higher parallelism
+./gradlew test -DincludeTags=API -Pforks=2 -PjunitThreads=6
+
+# UI only, headless, controlled parallelism
+./gradlew test -DincludeTags=UI -Dui.headless=true -Pforks=2 -PjunitThreads=3
+
+# Single test class
+./gradlew test --tests "com.freedcamp.tests.api.AuthTests"
 
 # Single test method
-./gradlew test --tests "com.freedcamp.tests.api.AuthTests.login_valid"
+./gradlew test --tests "com.freedcamp.tests.ui.TasksTests.verifyLoggingTimeOnTask"
 
-# Headless UI
-./gradlew test -Djunit.jupiter.tags=ui -Dui.headless=true
+# External creds + parallel
+./gradlew test -PcredsFile=$HOME/secure/freedcamp.creds -DincludeTags=UI -Pforks=2 -PjunitThreads=4
 
-# Parallel (after enabling in junit-platform.properties)
-./gradlew test -Djunit.jupiter.tags=api -DforkCount=1
+# Generate & view Allure report (serve)
+allure serve build/allure-results
 ```
-
----
-Feedback & ideas welcome – iterate fast, keep the feedback loop short, and prioritize reliability over breadth.

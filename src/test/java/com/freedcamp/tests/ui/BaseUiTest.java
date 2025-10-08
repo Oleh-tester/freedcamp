@@ -13,13 +13,10 @@ import io.qameta.allure.junit5.AllureJunit5;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.Getter;
 import net.datafaker.Faker;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Cookie;
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Map;
 

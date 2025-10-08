@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
-
+@Tag("E2E")
 public class EndToEndTests extends BaseUiTest {
 
     private final E2eSteps e2eSteps = new E2eSteps();
@@ -24,7 +24,6 @@ public class EndToEndTests extends BaseUiTest {
     @Test
     @SkipSessionInjection
     @RequiresProjectFromTemplate
-    @Tag("e2e")
     @Description("Verify logging time on project.")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate createdProject) {
         var targetProject = createdProject.createdProject().getProjectName();
@@ -47,7 +46,6 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @Tag("e2e")
     @Description("Verify creating project from template.")
     void verifyCreatingProjectFromTemplate() {
         String projectTemplateName = "Test Project Template" + faker.number().digits(4);
@@ -68,7 +66,6 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @Tag("e2e")
     @SkipSessionInjection
     @RequiresProject
     @DisplayName("Invite user -> signup -> complete account settings -> verify project is visible")

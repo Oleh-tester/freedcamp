@@ -8,12 +8,12 @@ import io.qameta.allure.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("UI")
 public class TasksTests extends BaseUiTest {
 
     @Test
     @RequiresProject
-    @Tag("smoke")
-    @Tag("ui")
+    @Tag("Smoke")
     @Description("Verify creating a new task.")
     void createNewTask() {
         var taskName = "New Task" + faker.number().digits(3);
@@ -29,8 +29,7 @@ public class TasksTests extends BaseUiTest {
 
     @Test
     @RequiresTask
-    @Tag("smoke")
-    @Tag("ui")
+    @Tag("Smoke")
     @Description("Verify editing task.")
     void editTask(CreatedTask createdTask) {
         var taskToEdit = createdTask.originalDto().getTitle();
@@ -49,7 +48,6 @@ public class TasksTests extends BaseUiTest {
 
     @Test
     @RequiresTask
-    @Tag("ui")
     @Description("Verify deleting task.")
     void deleteTask(CreatedTask createdTask) {
         var taskToDelete = createdTask.originalDto().getTitle();

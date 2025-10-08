@@ -47,24 +47,77 @@ configurations {
 
 def credsFileProp = findProperty('credsFile') as String
 
+def forks = (findProperty('forks') ?: '1') as int
+def junitThreads = (findProperty('junitThreads') ?: '2') as int
+
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
-    testLogging {
-        showStandardStreams = true
-    }
+
+    maxParallelForks = forks
+    forkEvery = 0
+
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
+    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
+    systemProperty 'junit.jupiter.execution.parallel.config.strategy', 'fixed'
+    systemProperty 'junit.jupiter.execution.parallel.config.fixed.parallelism', junitThreads.toString()
+
     systemProperty 'allure.results.directory', "${buildDir}/allure-results"
+
     if (credsFileProp) {
         systemProperty 'credsFile', credsFileProp
     }
+
+    testLogging { showStandardStreams = true }
 }
+
+tasks.register('uiTest', Test) {
+    description = 'Run UI tests in parallel'
+    useJUnitPlatform {
+        includeTags 'UI'
+    }
+}
+
+tasks.register('apiTest', Test) {
+    description = 'Run API tests in parallel'
+    useJUnitPlatform {
+        includeTags 'API'
+    }
+}
+
+tasks.register('e2eTest', Test) {
+    description = 'Run E2E tests in parallel'
+    useJUnitPlatform {
+        includeTags 'E2E'
+    }
+}
+
+tasks.named('test') {
+    description = 'Run all tests in parallel'
+}
+
+def includeTagsProp = System.getProperty("includeTags", "").trim()
+def excludeTagsProp = System.getProperty("excludeTags", "").trim()
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform {
+        def includes = includeTagsProp.split(',')*.trim().findAll { it } // список без порожніх
+        if (!includes.isEmpty()) {
+            includeTags(includes as String[])
+        }
+
+        def excludes = excludeTagsProp.split(',')*.trim().findAll { it }
+        if (!excludes.isEmpty()) {
+            excludeTags(excludes as String[])
+        }
+    }
+}
+
 
 allure {
     version = '2.29.0'
     adapter {
         frameworks {
-            junit5 {
-                enabled = true
-            }
+            junit5 { enabled = true }
         }
         autoconfigure = false
         aspectjWeaver = true

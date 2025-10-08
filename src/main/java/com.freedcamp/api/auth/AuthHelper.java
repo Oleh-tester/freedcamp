@@ -4,39 +4,53 @@ import com.freedcamp.api.controllers.LoginController;
 import com.freedcamp.utils.FreedcampConfig;
 import org.aeonbits.owner.ConfigFactory;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AuthHelper {
-    protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
-    private static final LoginController loginController = new LoginController();
+public final class AuthHelper {
 
-    private static final Map<String, Map<String, String>> CACHE = new ConcurrentHashMap<>();
-    private static final Duration TTL = Duration.ofHours(8);
-    private static final Map<String, Instant> EXPIRES = new ConcurrentHashMap<>();
+    private static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);
+
+    private static LoginController newLoginController() {
+        return new LoginController();
+    }
+
+    private record Session(Map<String, String> cookies) {
+            private Session(Map<String, String> cookies) {
+                this.cookies = Collections.unmodifiableMap(new HashMap<>(cookies));
+            }
+        }
+
+    private static final ConcurrentHashMap<String, Session> CACHE = new ConcurrentHashMap<>();
 
     public static Map<String, String> getOwnerSessionCookie() {
-        return getOrLogin("OWNER", CONFIG.email(), CONFIG.password());
+        return getSharedSession("OWNER", CONFIG.email(), CONFIG.password());
     }
 
-    private static Map<String, String> getOrLogin(String key, String email, String password) {
-        if (!CACHE.containsKey(key) || isExpired(key)) {
-            CACHE.put(key, login(email, password));
-            EXPIRES.put(key, Instant.now().plus(TTL));
-        }
-        return CACHE.get(key);
+    public static Map<String, String> getSharedSession(String key, String email, String password) {
+        Session s = CACHE.compute(key, (k, old) -> {
+            if (old == null ) {
+                return loginNewSession(email, password);
+            }
+            return old;
+        });
+        return new HashMap<>(s.cookies);
     }
 
-    private static boolean isExpired(String key) {
-        Instant e = EXPIRES.get(key);
-        return e == null || Instant.now().isAfter(e.minusSeconds(30));
-    }
-
-    private static Map<String, String> login(String email, String password) {
-        var loginResponse = loginController.login(email, password);
+    private static Session loginNewSession(String email, String password) {
+        var loginResponse = newLoginController().login(email, password);
         loginResponse.then().statusCode(200);
-        return loginResponse.getCookies();
+        Map<String, String> cookies = loginResponse.getCookies();
+        return new Session(cookies);
+    }
+
+    public static Map<String, String> getFreshSession(String email, String password) {
+        return new HashMap<>(loginNewSession(email, password).cookies);
+    }
+
+    public static void invalidate(String key) {
+        CACHE.remove(key);
     }
 }

@@ -7,11 +7,12 @@ import jdk.jfr.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("UI")
 public class TimeRecordsTests extends BaseUiTest {
 
     @Test
     @RequiresProjectFromTemplate
-    @Tag("smoke")
+    @Tag("Smoke")
     @Description("Test for creating a new time record on a project")
     void verifyLoggingTimeOnProject(CreatedProjectFromTemplate targetProject) {
         var targetProjectName = targetProject.createdProject().getProjectName();

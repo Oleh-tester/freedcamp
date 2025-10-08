@@ -4,8 +4,10 @@ import com.freedcamp.pages.HomePage;
 import com.freedcamp.testdata.CreatedProjectFromTemplate;
 import common.annotations.RequiresProjectFromTemplate;
 import jdk.jfr.Description;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("UI")
 public class MilestonesTests extends BaseUiTest {
 
     @Test

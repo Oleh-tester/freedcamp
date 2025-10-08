@@ -20,8 +20,8 @@ public class ProjectCreationWaiter {
     public void waitUntilProjectAppears(String projectName) {
         try {
             await()
-                    .pollDelay(33, SECONDS)
-                    .atMost(99, SECONDS)
+                    .pollDelay(35, SECONDS)
+                    .atMost(120, SECONDS)
                     .pollInterval(3, SECONDS)
                     .ignoreExceptions()
                     .until(() -> isProjectVisible(projectName));
