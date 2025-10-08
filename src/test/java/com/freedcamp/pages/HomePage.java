@@ -21,9 +21,7 @@ public class HomePage extends BasePage {
 
     @Step("Select project from scratch option in Add project dropdown.")
     public AddProjectForm selectProjectFromScratch() {
-        if ($x("//*[.='From scratch']").isDisplayed()) {
             $x("//*[.='From scratch']").click();
-        }
         return new AddProjectForm();
     }
 
