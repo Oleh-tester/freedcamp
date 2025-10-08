@@ -15,8 +15,10 @@ public class MilestonesPage extends BasePage {
 
     @Step("Open Project dropdown")
     public MilestonesPage openProjectDropdown() {
-        $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").click();
-        return this;
+        if (!$x("//div[contains(@class,'SelectOption')]").isDisplayed()) {
+            $x("//div[label[contains(text(), 'Project')]]//*[contains(@class,'DropdownArrow')]").
+                    shouldBe(Condition.interactable).click();
+        }        return this;
     }
 
     @Step("Select project {string}.")

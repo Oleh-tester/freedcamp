@@ -33,6 +33,7 @@ public class TestDataFactory {
                 .todoViewType("default")
                 .usageType("personal")
                 .groupId(faker.number().digits(6))
+                .appIds(List.of("2", "3", "4", "5", "19", "6"))
                 .build();
     }
 

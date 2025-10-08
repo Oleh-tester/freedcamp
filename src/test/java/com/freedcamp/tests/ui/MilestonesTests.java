@@ -1,8 +1,8 @@
 package com.freedcamp.tests.ui;
 
 import com.freedcamp.pages.HomePage;
-import com.freedcamp.testdata.CreatedProjectFromTemplate;
-import common.annotations.RequiresProjectFromTemplate;
+import com.freedcamp.testdata.CreatedProject;
+import common.annotations.RequiresProject;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 public class MilestonesTests extends BaseUiTest {
 
     @Test
-    @RequiresProjectFromTemplate
+    @RequiresProject
     @Description("Verify creating a new milestone")
-    void createNewMilestone(CreatedProjectFromTemplate project) {
-        var targetProject = project.createdProject().getProjectName();
+    void createNewMilestone(CreatedProject project) {
+        var targetProject = project.originalDto().getProjectName();
         var milestoneName = "Milestone" + faker.number().digits(3);
         new HomePage()
                 .verifyHomePageIsLoaded()

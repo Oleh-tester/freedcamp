@@ -30,4 +30,7 @@ public class CreateProjectDto {
 
     @JsonProperty("group_name")
     private String groupName;
+
+    @JsonProperty("app_ids")
+    private java.util.List<String> appIds;
 }

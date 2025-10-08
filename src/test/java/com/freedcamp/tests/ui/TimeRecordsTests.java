@@ -1,8 +1,8 @@
 package com.freedcamp.tests.ui;
 
 import com.freedcamp.pages.HomePage;
-import com.freedcamp.testdata.CreatedProjectFromTemplate;
-import common.annotations.RequiresProjectFromTemplate;
+import com.freedcamp.testdata.CreatedProject;
+import common.annotations.RequiresProject;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 public class TimeRecordsTests extends BaseUiTest {
 
     @Test
-    @RequiresProjectFromTemplate
+    @RequiresProject
     @Tag("Smoke")
     @Description("Test for creating a new time record on a project")
-    void verifyLoggingTimeOnProject(CreatedProjectFromTemplate targetProject) {
-        var targetProjectName = targetProject.createdProject().getProjectName();
+    void verifyLoggingTimeOnProject(CreatedProject targetProject) {
+        var targetProjectName = targetProject.originalDto().getProjectName();
         var timeRecord = "Test record " + faker.number().digits(4);
         new HomePage()
                 .verifyHomePageIsLoaded()
