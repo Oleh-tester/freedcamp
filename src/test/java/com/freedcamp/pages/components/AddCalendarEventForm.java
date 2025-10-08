@@ -17,6 +17,13 @@ public class AddCalendarEventForm extends BasePage {
         return this;
     }
 
+    @Step("Verify that Add Calendar Event form is opened.")
+    public AddCalendarEventForm verifyAddCalendarEventFormIsOpened() {
+        $x("//*[contains(@class,'QuickAddDrawer')]//input")
+                .shouldBe(Condition.visible);
+        return this;
+    }
+
     @Step("Click Quick Add button.")
     public CalendarPage clickQuickAddButton() {
         $x("//*[contains(@class,'QuickAddButton')]")

@@ -44,26 +44,6 @@ public class EndToEndTests extends BaseUiTest {
     }
 
     @Test
-    @Description("Verify creating project from template.")
-    void verifyCreatingProjectFromTemplate() {
-        String projectTemplateName = "Test Project Template" + faker.number().digits(4);
-        open("");
-        new HomePage()
-                .verifyHomePageIsLoaded()
-                .sidebar().openUserMenuPopover()
-                .openManageSystemPage()
-                .verifyManageSystemPageIsLoaded()
-                .switchToTemplatesTab()
-                .openProjectTemplatePopover()
-                .selectCreateProjectFromTemplateOption()
-                .verifyCreateProjectFromTemplateDrawerIsOpened()
-                .fillInProjectName(projectTemplateName)
-                .submitProjectCreation();
-
-        e2eSteps.waitUntilProjectFromTemplateIsCreated(projectTemplateName);
-    }
-
-    @Test
     @SkipSessionInjection
     @RequiresProject
     @DisplayName("Invite user -> signup -> complete account settings -> verify project is visible")
@@ -86,5 +66,25 @@ public class EndToEndTests extends BaseUiTest {
                 .clickUpdateAccountButton()
                 .verifyHomePageIsLoaded()
                 .verifyProjectIsDisplayedInSideBar(projectName);
+    }
+
+    @Test
+    @Description("Verify creating project from template.")
+    void verifyCreatingProjectFromTemplate() {
+        String projectTemplateName = "Test Project Template" + faker.number().digits(4);
+        open("");
+        new HomePage()
+                .verifyHomePageIsLoaded()
+                .sidebar().openUserMenuPopover()
+                .openManageSystemPage()
+                .verifyManageSystemPageIsLoaded()
+                .switchToTemplatesTab()
+                .openProjectTemplatePopover()
+                .selectCreateProjectFromTemplateOption()
+                .verifyCreateProjectFromTemplateDrawerIsOpened()
+                .fillInProjectName(projectTemplateName)
+                .submitProjectCreation();
+
+        e2eSteps.waitUntilProjectFromTemplateIsCreated(projectTemplateName);
     }
 }

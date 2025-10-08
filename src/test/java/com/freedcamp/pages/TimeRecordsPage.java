@@ -16,6 +16,12 @@ public class TimeRecordsPage extends BasePage {
         return this;
     }
 
+    @Step("Verify Add Time Record sidebar is opened")
+    public TimeRecordsPage verifyAddTimeRecordSidebarIsOpened() {
+        $x("//div[contains(@class,'QuickAddDrawer')]//input").shouldBe(Condition.visible);
+        return this;
+    }
+
     @Step("Open Add Time Record full form")
     public TimeRecordsPage openAddTimeRecordFullForm() {
         $x("//button[.='Full Add Form']").click();
