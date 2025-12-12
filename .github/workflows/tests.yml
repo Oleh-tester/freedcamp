@@ -31,7 +31,7 @@ jobs:
           cat > freedcamp.properties << 'EOF'
           baseUrl=${{ secrets.BASE_URL }}
           ui.headless=true
-          ui.browser=chromium
+          ui.browser=chrome
           testUserId=${{ secrets.TEST_USER_ID }}
           projectTemplateId=${{ secrets.PROJECT_TEMPLATE_ID }}
           owner.email=${{ secrets.OWNER_EMAIL }}
@@ -45,12 +45,14 @@ jobs:
           echo "File contents (masked):"
           cat freedcamp.properties | sed 's/password=.*/password=***MASKED***/g'
 
-      - name: Install Chrome dependencies
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            chromium-browser \
-            chromium-chromedriver
+          sudo apt-get install -y wget gnupg
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
       - name: Run smoke tests
         run: ./gradlew clean test -DcredsFile=${{ github.workspace }}/freedcamp.properties -DincludeTags=Smoke --info --stacktrace
