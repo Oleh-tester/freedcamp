@@ -31,7 +31,7 @@ jobs:
           cat > freedcamp.properties << 'EOF'
           baseUrl=${{ secrets.BASE_URL }}
           ui.headless=true
-          ui.browser=chrome
+          ui.browser=chromium
           testUserId=${{ secrets.TEST_USER_ID }}
           projectTemplateId=${{ secrets.PROJECT_TEMPLATE_ID }}
           owner.email=${{ secrets.OWNER_EMAIL }}
