@@ -45,7 +45,7 @@ configurations {
     }
 }
 
-def credsFileProp = findProperty('credsFile') as String
+def credsFileProp = (System.getProperty('credsFile') ?: findProperty('credsFile')) as String
 
 def forks = (findProperty('forks') ?: '1') as int
 def junitThreads = (findProperty('junitThreads') ?: '1') as int
