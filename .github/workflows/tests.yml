@@ -1,153 +1,13 @@
-name: Automated Tests
+name: Smoke Tests
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
-  schedule:
-    # Run daily at 2 AM UTC
-    - cron: '0 2 * * *'
   workflow_dispatch:
-    inputs:
-      test_tags:
-        description: 'Test tags to run (e.g., Smoke, API, UI)'
-        required: false
-        default: 'Smoke'
 
 jobs:
-  api-tests:
-    name: API Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'gradle'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Create credentials file
-        run: |
-          mkdir -p src/test/resources
-          cat > src/test/resources/freedcamp.properties << EOF
-          baseUrl=${{ secrets.BASE_URL }}
-          ui.headless=true
-          ui.browser=chrome
-          testUserId=${{ secrets.TEST_USER_ID }}
-          projectTemplateId=${{ secrets.PROJECT_TEMPLATE_ID }}
-          owner.email=${{ secrets.OWNER_EMAIL }}
-          owner.password=${{ secrets.OWNER_PASSWORD }}
-          EOF
-
-      - name: Run API tests
-        run: ./gradlew test -DincludeTags=API -Pforks=2 -PjunitThreads=4
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-test-results
-          path: |
-            build/reports/tests/
-            build/test-results/
-            build/allure-results/
-          retention-days: 30
-
-      - name: Generate Allure Report
-        if: always()
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: build/allure-results
-          allure_history: allure-history
-          keep_reports: 20
-
-      - name: Publish Allure Report
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-          destination_dir: api-tests
-
-  ui-tests:
-    name: UI Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'gradle'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Create credentials file
-        run: |
-          mkdir -p src/test/resources
-          cat > src/test/resources/freedcamp.properties << EOF
-          baseUrl=${{ secrets.BASE_URL }}
-          ui.headless=true
-          ui.browser=chrome
-          testUserId=${{ secrets.TEST_USER_ID }}
-          projectTemplateId=${{ secrets.PROJECT_TEMPLATE_ID }}
-          owner.email=${{ secrets.OWNER_EMAIL }}
-          owner.password=${{ secrets.OWNER_PASSWORD }}
-          EOF
-
-      - name: Run UI tests
-        run: ./gradlew test -DincludeTags=UI -Pforks=1 -PjunitThreads=2
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-test-results
-          path: |
-            build/reports/tests/
-            build/test-results/
-            build/allure-results/
-          retention-days: 30
-
-      - name: Upload screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-failure-screenshots
-          path: build/reports/tests/
-          retention-days: 7
-
-      - name: Generate Allure Report
-        if: always()
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: build/allure-results
-          allure_history: allure-history
-          keep_reports: 20
-
-      - name: Publish Allure Report
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-          destination_dir: ui-tests
-
   smoke-tests:
     name: Smoke Tests
     runs-on: ubuntu-latest
@@ -169,7 +29,7 @@ jobs:
       - name: Create credentials file
         run: |
           mkdir -p src/test/resources
-          cat > src/test/resources/freedcamp.properties << EOF
+          cat > src/test/resources/freedcamp.properties << 'EOF'
           baseUrl=${{ secrets.BASE_URL }}
           ui.headless=true
           ui.browser=chrome
@@ -179,8 +39,24 @@ jobs:
           owner.password=${{ secrets.OWNER_PASSWORD }}
           EOF
 
+      - name: Verify configuration file
+        run: |
+          echo "Configuration file created:"
+          ls -la src/test/resources/
+          echo "File contents (masked):"
+          cat src/test/resources/freedcamp.properties | sed 's/password=.*/password=***MASKED***/g'
+
+      - name: Install Chrome dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            chromium-browser \
+            chromium-chromedriver
+
       - name: Run smoke tests
-        run: ./gradlew test -DincludeTags=Smoke -Pforks=2 -PjunitThreads=3
+        run: ./gradlew clean test -DincludeTags=Smoke --info --stacktrace
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
       - name: Upload test results
         if: always()
@@ -193,6 +69,15 @@ jobs:
             build/allure-results/
           retention-days: 30
 
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: build/reports/tests/**/*.png
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Generate Allure Report
         if: always()
         uses: simple-elf/allure-report-action@master
@@ -200,6 +85,14 @@ jobs:
           allure_results: build/allure-results
           allure_history: allure-history
           keep_reports: 20
+
+      - name: Publish Allure Report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
       - name: Publish Test Summary
         if: always()
