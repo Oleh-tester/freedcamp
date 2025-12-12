@@ -26,6 +26,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Debug secrets presence (safe)
+        run: |
+          echo "BASE_URL present? -> ${{ secrets.BASE_URL != '' }}"
+          echo "OWNER_EMAIL present? -> ${{ secrets.OWNER_EMAIL != '' }}"
+          echo "OWNER_PASSWORD present? -> ${{ secrets.OWNER_PASSWORD != '' }}"
+          echo "TEST_USER_ID present? -> ${{ secrets.TEST_USER_ID != '' }}"
+          echo "PROJECT_TEMPLATE_ID present? -> ${{ secrets.PROJECT_TEMPLATE_ID != '' }}"
+
       - name: Create credentials file
         run: |
           cat > freedcamp.properties << 'EOF'
