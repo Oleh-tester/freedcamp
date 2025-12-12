@@ -28,8 +28,7 @@ jobs:
 
       - name: Create credentials file
         run: |
-          mkdir -p src/test/resources
-          cat > src/test/resources/freedcamp.properties << 'EOF'
+          cat > freedcamp.properties << 'EOF'
           baseUrl=${{ secrets.BASE_URL }}
           ui.headless=true
           ui.browser=chrome
@@ -42,9 +41,9 @@ jobs:
       - name: Verify configuration file
         run: |
           echo "Configuration file created:"
-          ls -la src/test/resources/
+          ls -la freedcamp.properties
           echo "File contents (masked):"
-          cat src/test/resources/freedcamp.properties | sed 's/password=.*/password=***MASKED***/g'
+          cat freedcamp.properties | sed 's/password=.*/password=***MASKED***/g'
 
       - name: Install Chrome dependencies
         run: |
@@ -54,7 +53,7 @@ jobs:
             chromium-chromedriver
 
       - name: Run smoke tests
-        run: ./gradlew clean test -DincludeTags=Smoke --info --stacktrace
+        run: ./gradlew clean test -DcredsFile=${{ github.workspace }}/freedcamp.properties -DincludeTags=Smoke --info --stacktrace
         env:
           GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
