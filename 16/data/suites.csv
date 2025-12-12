@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify editing task.","1632","editTask(CreatedTask)","","Fri Dec 12 15:04:11 UTC 2025","failed","Fri Dec 12 15:04:13 UTC 2025","","com.freedcamp.tests.ui.TasksTests","com.freedcamp.tests.ui.TasksTests","editTask"
+"","9700","verifyLoggingTimeOnProject(CreatedProject)","","Fri Dec 12 15:04:13 UTC 2025","failed","Fri Dec 12 15:04:22 UTC 2025","","com.freedcamp.tests.ui.TimeRecordsTests","com.freedcamp.tests.ui.TimeRecordsTests","verifyLoggingTimeOnProject"
+"Verify creating a new project","13301","createNewProject()","","Fri Dec 12 15:03:47 UTC 2025","failed","Fri Dec 12 15:04:00 UTC 2025","","com.freedcamp.tests.ui.ProjectTests","com.freedcamp.tests.ui.ProjectTests","createNewProject"
+"","7447","Check user successful login","","Fri Dec 12 15:03:40 UTC 2025","passed","Fri Dec 12 15:03:47 UTC 2025","","com.freedcamp.tests.ui.AuthTests","com.freedcamp.tests.ui.AuthTests","loginSuccessTest"
+"Verify creating a new task.","10641","createNewTask(CreatedProject)","","Fri Dec 12 15:04:00 UTC 2025","failed","Fri Dec 12 15:04:11 UTC 2025","","com.freedcamp.tests.ui.TasksTests","com.freedcamp.tests.ui.TasksTests","createNewTask"
