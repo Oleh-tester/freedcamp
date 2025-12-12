@@ -1,8 +1,29 @@
+# IDE
 .idea/
 *.iml
+.vscode/
+.DS_Store
+
+# Build
 target/
 out/
-echo ".DS_Store" >> .gitignore
-echo "/build/" >> .gitignore
-echo "/.gradle/" >> .gitignore
+build/
+.gradle/
+
+# Credentials
+src/test/resources/freedcamp.properties
+**/freedcamp.properties
+!**/freedcamp.properties.example
+
+# Logs
+*.log
+logs/
+
+# Allure
+allure-results/
+allure-report/
+
+# Test results
+test-results/
+test-output/
 

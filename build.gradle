@@ -73,21 +73,21 @@ tasks.withType(Test).configureEach {
 tasks.register('uiTest', Test) {
     description = 'Run UI tests in parallel'
     useJUnitPlatform {
-        includeTags 'UI'
+        includeTags 'ui'
     }
 }
 
 tasks.register('apiTest', Test) {
     description = 'Run API tests in parallel'
     useJUnitPlatform {
-        includeTags 'API'
+        includeTags 'api'
     }
 }
 
 tasks.register('e2eTest', Test) {
     description = 'Run E2E tests in parallel'
     useJUnitPlatform {
-        includeTags 'E2E'
+        includeTags 'e2e'
     }
 }
 

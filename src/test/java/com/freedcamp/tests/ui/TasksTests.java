@@ -9,7 +9,6 @@ import io.qameta.allure.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("UI")
 public class TasksTests extends BaseUiTest {
 
     @Test

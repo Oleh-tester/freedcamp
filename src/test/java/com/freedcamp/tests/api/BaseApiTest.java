@@ -9,7 +9,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@Tag("API")
+@Tag("api")
 @ExtendWith({AllureJunit5.class, TestDataSetupExtension.class, LoggingExtension.class})
 public abstract class BaseApiTest {
     protected static final FreedcampConfig CONFIG = ConfigFactory.create(FreedcampConfig.class);

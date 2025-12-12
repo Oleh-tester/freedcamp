@@ -76,8 +76,7 @@ public class TestDataProvider {
      * Creates a project in the specified group and returns the created project and original DTO for later use.
      */
     public CreatedProject createProjectInGroup(String groupId) {
-        var projectDto = TestDataFactory.validProjectDto();
-        projectDto.setGroupId(groupId);
+        var projectDto = TestDataFactory.validProjectDtoWithGroup(groupId);
         var response = projectController.createProject(projectDto);
         assertThat(response.statusCode()).isEqualTo(200);
         return new CreatedProject(response.as(CreateProjectResponseDto.class), projectDto);

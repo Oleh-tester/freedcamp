@@ -1,7 +1,8 @@
-baseUrl=
-ui.headless=
-ui.browser=
-ui.email=
-ui.password=
-testUserId=
-projectTemplateId=
+baseUrl=https://freedcamp.com
+ui.headless=false
+ui.browser=chrome
+testUserId=YOUR_TEST_USER_ID
+projectTemplateId=YOUR_PROJECT_TEMPLATE_ID
+
+owner.email=your_email@example.com
+owner.password=your_password_here

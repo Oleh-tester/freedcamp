@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
-@Tag("E2E")
+
+@Tag("e2e")
 public class EndToEndTests extends BaseUiTest {
 
     private final E2eSteps e2eSteps = new E2eSteps();

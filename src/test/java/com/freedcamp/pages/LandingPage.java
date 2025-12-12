@@ -77,9 +77,9 @@ public class LandingPage extends BasePage {
     }
 
     @Step("Verify landing page is loaded")
-    public LandingPage verifyLandingPageIsLoaded() throws InterruptedException {
+    public LandingPage verifyLandingPageIsLoaded() {
         waitUntilVisible($x("//*[contains(text(),'Start Now')]"));
-        Thread.sleep(2500);
+        $x("//*[contains(text(),'Start Now')]").shouldBe(Condition.visible);
         return this;
     }
 }

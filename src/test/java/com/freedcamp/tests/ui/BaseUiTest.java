@@ -21,7 +21,9 @@ import org.aeonbits.owner.ConfigFactory;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.open;
+
 @Getter
+@Tag("ui")
 @ExtendWith({AllureJunit5.class, TestDataSetupExtension.class, LoggingExtension.class})
 public abstract class BaseUiTest {
 
