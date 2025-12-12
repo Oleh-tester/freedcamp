@@ -23,7 +23,7 @@
 **1. Clone & Navigate**
 ```bash
 git clone <repository-url>
-cd freecampPromo
+cd freecamp
 ```
 
 **2. Configure Credentials**
